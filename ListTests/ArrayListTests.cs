@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using List;
+using System;
 
 namespace ListTests
 {
@@ -289,31 +290,105 @@ namespace ListTests
 
 
 
-        //[TestCase(new int[] { })]        
-        //public void ArrayList1Tests(int[] expectedArray)
-        //{
-        //    ArrayList expected = new ArrayList(expectedArray);
-        //    ArrayList actual = new ArrayList();
 
-        //    Assert.AreEqual(expected, actual);
-        //}
+        [TestCase(1, -5, new int[] { 1, 2, 3 })]
+        public void AddByIndexException(int value, int index, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.AddValueByIndexInList(index, value));
+        }
 
-        //[TestCase(1, new int[] { 1 })]
-        //public void ArrayList1Tests(int value, int[] expectedArray)
-        //{
-        //    ArrayList expected = new ArrayList(expectedArray);
-        //    ArrayList actual = new ArrayList(value);
+        [TestCase(new int[] { })]
+        public void RemoveLastException(int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.RemoveValueInEndInList());
+        }
 
-        //    Assert.AreEqual(expected, actual);
-        //}
+        [TestCase(-5, new int[] { 1, 2, 3 })]
+        [TestCase(4, new int[] { 1, 2, 3 })]
+        [TestCase(0, new int[] { })]
 
-        //[TestCase(new int[] { 1, 5, 6, 7, 2 }, new int[] { 1, 5, 6, 7, 2 })]
-        //public void ArrayList1Tests(int[] array, int[] expectedArray)
-        //{
-        //    ArrayList expected = new ArrayList(expectedArray);
-        //    ArrayList actual = new ArrayList(array);
+        public void RemoveByIndexException(int index, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.RemoveValueByIndexInList(index));
+        }
 
-        //    Assert.AreEqual(expected, actual);
-        //}
+        [TestCase(4, new int[] { 1, 2, 3 })]
+        [TestCase(5, new int[] { })]
+
+        public void RemoveLastElementsException(int count, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveGivenQuantityOfValuesTheEndByList(count));
+        }
+
+        [TestCase(-5, new int[] { 1, 2, 3 })]
+
+        public void RemoveLastElements_WhenElementsMinus_Exception(int count, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<ArgumentException>(() => list.RemoveGivenQuantityOfValuesTheEndByList(count));
+        }
+
+        [TestCase(4, 1, new int[] { 1, 2, 3 })]
+        [TestCase(-2, 1, new int[] { })]
+        public void RemoveByIndexElementsException(int index, int count, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.RemoveGivenQuantityOfValuesByIndexInList(index, count));
+        }
+
+        [TestCase(1, -5, new int[] { 1, 2, 3 })]
+        public void RemoveByIndexElements_WhenElementsMinus_Exception(int index, int count, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<ArgumentException>(() => list.RemoveGivenQuantityOfValuesByIndexInList(index, count));
+        }
+
+        [TestCase(new int[] { })]
+        public void GetMaxException(int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.FindMaxValueByList());
+        }
+
+        [TestCase(new int[] { })]
+        public void GetMinException(int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.FindMinValueByList());
+        }
+
+        //    [TestCase(new int[] { })]
+        //    public void GetMaxIndexException(int[] actualArray)
+        //    {
+        //        ArrayList array = new ArrayList(actualArray);
+        //        Assert.Throws<IndexOutOfRangeException>(() => array.GetMaxIndex());
+        //    }
+
+        //    [TestCase(new int[] { })]
+        //    public void GetMinIndexException(int[] actualArray)
+        //    {
+        //        ArrayList array = new ArrayList(actualArray);
+        //        Assert.Throws<IndexOutOfRangeException>(() => array.GetMinIndex());
+        //    }
+        //    [TestCase(1, -5, new int[] { 1, 2, 3 })]
+        //    public void AddByIndexException3(int value, int index, int[] actualArray)
+        //    {
+        //        ArrayList array = new ArrayList(actualArray);
+        //        Assert.Throws<IndexOutOfRangeException>(() => { int t = array[index]; });
+        //    }
+
+        //    [TestCase(-1, new int[] { 1, 2, 3 })]
+        //    [TestCase(4, new int[] { 1, 2, 3 })]
+
+        //    public void CopyArrayAtTheIndexException(int index, int[] actualArray)
+        //    {
+        //        ArrayList array = new ArrayList(actualArray);
+        //        Assert.Throws<IndexOutOfRangeException>(() => array.CopyArrayAtTheIndex(index));
+        //    }
+        //
     }
 }

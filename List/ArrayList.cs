@@ -12,7 +12,7 @@ namespace List
         {
             get
             {
-                // CheckIndexException(index);
+                CheckExceptionIndex(index);
                 return _list[index];
             }
             set
@@ -58,6 +58,7 @@ namespace List
         // 3. Добавление значения по индексу
         public void AddValueByIndexInList(int index, int value )    
         {
+            CheckExceptionIndex(index);
             CheckUpSize();
             for (int i = Length; i > index; i--)
             {
@@ -100,11 +101,19 @@ namespace List
         // 9. Удаление по индексу N элементов
         public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)  
         {
-            for (int i = index; i < Length - count; i++)
+            CheckExceptionIndex(index);
+            if (Length != 0)
             {
-                _list[i] = _list[i + count];
+                for (int i = index; i < Length - count; i++)
+                {
+                    _list[i] = _list[i + count];
+                }
+                CheckDownSize(count);
             }
-            CheckDownSize(count);
+            else
+            {
+                CheckExceptionByZeroLength();
+            }
         }
 
         // 12. Первый индекс по значению
@@ -123,8 +132,9 @@ namespace List
         }
 
         // 13. Изменение по индексу
-        public void ChangeValueByIndex(int index,int value) 
+        public void ChangeValueByIndex(int index, int value) 
         {
+            CheckExceptionIndex(index);
             _list[index] = value;                  
         }
 
@@ -258,6 +268,7 @@ namespace List
         // 26. Добавление списка по индексу
         public void AddNewListByIndexInList(int index, int[] array)                   
         {
+            CheckExceptionIndex(index);
             CheckUpSize(array.Length);
             int generalLength = Length + array.Length;
             int length = generalLength - array.Length - index;
