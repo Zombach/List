@@ -307,6 +307,28 @@ namespace List
             throw new NotImplementedException();
         }
 
+        private void CheckExceptionIndex(int index)
+        {
+            if (index > Length || index < 0)
+            {
+                throw new IndexOutOfRangeException("индекс находится за пределами массива входит в массив");
+            }
+        }
+        private void CheckExceptionByZeroLength()
+        {
+            if (Length <= 0)
+            {
+                throw new IndexOutOfRangeException("массив пустой");
+            }
+        }
+
+        private void CheckExceptionByCountToRemove(int count)
+        {
+            if (count < 0)
+            {
+                throw new ArgumentException("нельзя удалить отрицательное количество элементов");
+            }
+        }
         private void CheckUpSize(int length = 0)
         {
             if (Length + length >= _list.Length)
