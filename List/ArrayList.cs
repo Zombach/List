@@ -8,6 +8,18 @@ namespace List
 
         private int[] _list;
 
+        public int index
+        {
+            set
+            {
+
+            }
+            get
+            {
+                return index;
+            }
+        }
+
         public ArrayList()
         {
             Length = 0;
@@ -27,13 +39,13 @@ namespace List
 
         public void AddValueByLast(int value)
         {
-            checkUpSize();
+            CheckUpSize();
             _list[Length] = value;
             Length++;
         }
         public void AddValueByFirst(int value)
         {
-            checkUpSize();
+            CheckUpSize();
             for (int i = 0; i<Length; i++)
             {
                 _list[i + 1] = _list[i];
@@ -43,7 +55,7 @@ namespace List
         }
         public void AddValueByIndex(int value, int index)
         {
-            checkUpSize();
+            CheckUpSize();
             for (int i = Length; i > index; i--)
             {
                 _list[i] = _list[i - 1];
@@ -55,34 +67,66 @@ namespace List
         public void RemoveLastValue()
         {
             checkDownSize();
-            Length--;
         }
-        public void RemoveFirstValue()
+        public void RemoveFirstValue(int n = 1)
         {
-            for (int i = 1; i < Length; i++)
+            for (int i = n; i < Length; i++)
             {
                 _list[i] = _list[i - 1];
             }
             checkDownSize();
         }
-        public void RemoveIndexValue(int index)
+        public void RemoveIndexValue(int index, int n = 1)
         {
-            for (int i = index; i < Length - 1; i++)
+            for (int i = index; i < Length - n; i++)
             {
-                _list[i] = _list[i + 1];
+                _list[i] = _list[i + n];
             }
-            checkDownSize();
+            checkDownSize(n);
         }
-        private void checkUpSize()
+
+        public void RemoveLastN_Values(int n)
+        {
+            checkDownSize(n);
+        }        
+        public void RemoveFirstN_Values(int n)
+        {
+            RemoveFirstValue(n);
+        }
+        public void RemoveIndexN_Values(int index, int n)
+        {
+            RemoveIndexValue(index, n);
+        }
+        public int ReturnByIndex(int index)
+        {
+          return _list[index];
+        }
+
+        public int ReturnFirstIndexByValue(int value)
+        {
+            for (int index = 0; index < Length; index++)
+            {
+                if (_list[index] == value)
+                {
+                    return index;
+                }
+            }
+            return value;
+        }
+        public void ChangeValueByIndex(int index,int value)
+        {
+            _list[index] = value;                  
+        }
+        private void CheckUpSize()
         {
             if (Length == _list.Length)
             {
                 UpSize();
             }
         }
-        private void checkDownSize()
+        private void checkDownSize(int n = 1)
         {
-            Length--;
+            Length -= n;
             if (Length < (_list.Length/ 2))
             {
                 DownSize();
