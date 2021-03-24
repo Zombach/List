@@ -361,34 +361,24 @@ namespace ListTests
             Assert.Throws<IndexOutOfRangeException>(() => list.FindMinValueByList());
         }
 
-        //    [TestCase(new int[] { })]
-        //    public void GetMaxIndexException(int[] actualArray)
-        //    {
-        //        ArrayList array = new ArrayList(actualArray);
-        //        Assert.Throws<IndexOutOfRangeException>(() => array.GetMaxIndex());
-        //    }
+        [TestCase(new int[] { })]
+        public void GetMaxIndexException(int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.FindIndexMaxValueByList());
+        }
 
-        //    [TestCase(new int[] { })]
-        //    public void GetMinIndexException(int[] actualArray)
-        //    {
-        //        ArrayList array = new ArrayList(actualArray);
-        //        Assert.Throws<IndexOutOfRangeException>(() => array.GetMinIndex());
-        //    }
-        //    [TestCase(1, -5, new int[] { 1, 2, 3 })]
-        //    public void AddByIndexException3(int value, int index, int[] actualArray)
-        //    {
-        //        ArrayList array = new ArrayList(actualArray);
-        //        Assert.Throws<IndexOutOfRangeException>(() => { int t = array[index]; });
-        //    }
-
-        //    [TestCase(-1, new int[] { 1, 2, 3 })]
-        //    [TestCase(4, new int[] { 1, 2, 3 })]
-
-        //    public void CopyArrayAtTheIndexException(int index, int[] actualArray)
-        //    {
-        //        ArrayList array = new ArrayList(actualArray);
-        //        Assert.Throws<IndexOutOfRangeException>(() => array.CopyArrayAtTheIndex(index));
-        //    }
-        //
+        [TestCase(new int[] { })]
+        public void GetMinIndexException(int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => list.FindIndexMinValueByList());
+        }
+        [TestCase(1, -5, new int[] { 1, 2, 3 })]
+        public void AddByIndexException3(int value, int index, int[] actualArray)
+        {
+            ArrayList list = new ArrayList(actualArray);
+            Assert.Throws<IndexOutOfRangeException>(() => { int t = list[index]; });
+        }
     }
 }
