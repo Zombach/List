@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace List
 
-/*
-10. Вернуть длину
-11. Доступ по индексу 
-
-
-
- */
 {
     public class ArrayList
     {
         public int Length { set; private get; }
-
         private int[] _list;
 
         public int this[int index]
@@ -31,34 +21,42 @@ namespace List
             }
         }
 
-        public ArrayList()                                               // 23.1 3 конструктора (пустой, на основе одного элемента, на основе массива )
+        // 23.1 3 конструктора (пустой)  
+        public ArrayList()                                               
         {
             Length = 0;
             _list = new int[10];
         }
 
-        public ArrayList(int value)                                      // 23.2 3 конструктора (пустой, на основе одного элемента, на основе массива )
+        // 23.2 3 конструктора (на основе одного элемента)
+        public ArrayList(int value) 
         {
             Length = 1;
             _list = new int[10];
             _list[0] = value;
         }
 
-        public ArrayList(int[] list)                                     // 23.3 3 конструктора (пустой, на основе одного элемента, на основе массива )
+        // 23.3 3 конструктора (на основе массива )
+        public ArrayList(int[] list)    
         {
             _list = list;
             Length = _list.Length;
         }
 
-        public void AddValueLastInList(int value)                                               // 1. Добавление значения в конец
+        // 1. Добавление значения в конец
+        public void AddValueLastInList(int value)   
         {
             AddValueByIndexInList(Length, value);
         }
-        public void AddValueByFirstInList(int value)                                            // 2. Добавление значения в начало
+
+        // 2. Добавление значения в начало
+        public void AddValueByFirstInList(int value)    
         {
-            AddValueByIndexInList(value, 0);
+            AddValueByIndexInList(0, value);
         }
-        public void AddValueByIndexInList(int index, int value )                                // 3. Добавление значения по индексу
+
+        // 3. Добавление значения по индексу
+        public void AddValueByIndexInList(int index, int value )    
         {
             CheckUpSize();
             for (int i = Length; i > index; i--)
@@ -69,28 +67,38 @@ namespace List
             Length++;
         }
 
-        public void RemoveValueInEndInList()                                                    // 4. Удаление из конца одного элемента
+        // 4. Удаление из конца одного элемента
+        public void RemoveValueInEndInList()    
         {
             RemoveGivenQuantityOfValuesByIndexInList(Length);
         }
-        public void RemoveValueInStartInList()                                                  // 5. Удаление из начала одного элемента
+
+        // 5. Удаление из начала одного элемента
+        public void RemoveValueInStartInList()  
         {
             RemoveGivenQuantityOfValuesByIndexInList(0);
         }
-        public void RemoveValueByIndexInList(int index)                                         // 6. Удаление по индексу одного элемента
+
+        // 6. Удаление по индексу одного элемента
+        public void RemoveValueByIndexInList(int index) 
         {
             RemoveGivenQuantityOfValuesByIndexInList(index);
         }
 
-        public void RemoveGivenQuantityOfValuesTheEndByList(int count)                          // 7. Удаление из конца N элементов
+        // 7. Удаление из конца N элементов
+        public void RemoveGivenQuantityOfValuesTheEndByList(int count)  
         {
             RemoveGivenQuantityOfValuesByIndexInList(Length, count);
-        }        
-        public void RemoveGivenQuantityOfValuesTheStartByList(int count)                        // 8. Удаление из начала N элементов
+        }
+
+        // 8. Удаление из начала N элементов
+        public void RemoveGivenQuantityOfValuesTheStartByList(int count)    
         {
             RemoveGivenQuantityOfValuesByIndexInList(0, count);
         }
-        public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)          // 9. Удаление по индексу N элементов
+
+        // 9. Удаление по индексу N элементов
+        public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)  
         {
             for (int i = index; i < Length - count; i++)
             {
@@ -99,8 +107,8 @@ namespace List
             CheckDownSize(count);
         }
 
-
-        public int GetFirstIndexByValue(int value)                   // 12. Первый индекс по значению
+        // 12. Первый индекс по значению
+        public int GetFirstIndexByValue(int value)  
         {
             int index = -1;
             for (int i = 0; i < Length; i++)
@@ -113,12 +121,15 @@ namespace List
             }
             return index;
         }
-        public void ChangeValueByIndex(int index,int value)             // 13. Изменение по индексу
+
+        // 13. Изменение по индексу
+        public void ChangeValueByIndex(int index,int value) 
         {
             _list[index] = value;                  
         }
 
-        public void ReversList()
+        // 14. Реверс (123 -> 321)
+        public void ReversList()    
         {
             int halfLength = Length / 2;
             for (int i = 0; i < halfLength; i ++)
@@ -127,17 +138,22 @@ namespace List
                 _list[i] = _list[Length - i - 1];
                 _list[Length - i - 1] = tmp;
             }
-        }                           // 14. Реверс (123 -> 321)
+        }
 
-        public int FindMaxValueByList()                        // 15. Поиск значения максимального элемента
+        // 15. Поиск значения максимального элемента
+        public int FindMaxValueByList() 
         {
             return _list[FindIndexMaxValueByList()];
         }
-        public int FindMinValueByList()                    // 16. Поиск значения минимального элемента
+
+        // 16. Поиск значения минимального элемента
+        public int FindMinValueByList() 
         {
             return _list[FindIndexMinValueByList()];
         }
-        public int FindIndexMaxValueByList()                        // 17. Поиск индекс максимального элемента
+
+        // 17. Поиск индекс максимального элемента
+        public int FindIndexMaxValueByList()
         {
             int index = 0;
             int tmp = _list[index];
@@ -151,7 +167,9 @@ namespace List
             }
             return index;
         }
-        public int FindIndexMinValueByList()                    // 18. Поиск индекс минимального элемента
+
+        // 17. Поиск индекс минимального элемента
+        public int FindIndexMinValueByList()    
         {
             int index = 0;
             int tmp = _list[index];
@@ -166,28 +184,57 @@ namespace List
             return index;
         }
 
-        public void SortAscending()                          // 19. Сортировка по возрастанию
+        // 19. Сортировка по возрастанию
+        public void SortAscending() 
         {
-
+            int tmp;
+            for (int i = 0; i < Length - 1; i++)
+            {
+                for (int j = i + 1; j < Length; j++)
+                {
+                    if (_list[j] < _list[i])
+                    {
+                        tmp = _list[j];
+                        _list[j] = _list[i];
+                        _list[i] = tmp;
+                    }
+                }
+            }
         }
 
-        public void SortDescending()                        // 20. Сортировка по убыванию
+        // 20. Сортировка по убыванию
+        public void SortDescending()                        
         {
-
+            int tmp;
+            for (int i = 0; i < Length - 1; i++)
+            {
+                for (int j = i + 1; j < Length; j++)
+                {
+                    if (_list[j] > _list[i])
+                    {
+                        tmp = _list[j];
+                        _list[j] = _list[i];
+                        _list[i] = tmp;
+                    }
+                }
+            }
         }
 
-        public void RemoveByValueFirstMatchInList(int value)                    // 21. Удаление по значению первого
+        // 21. Удаление по значению первого
+        public void RemoveByValueFirstMatchInList(int value)                    
         {
             RemoveByValueAllMatchInList(value, true);
         }
 
-        public void RemoveByValueAllMatchInList(int value, bool oneElement = false)       // 22. Удаление по значению всех(?вернуть кол-во)
+        // 22. Удаление по значению всех(?вернуть кол-во)
+        public void RemoveByValueAllMatchInList(int value, bool oneElement = false)       
         {
             for (int i = 0; i < Length; i++)
             {
                 if (_list[i] == value)
                 {
                     RemoveGivenQuantityOfValuesByIndexInList(i);
+                    i--;
                     if (oneElement)
                     {
                         break;
@@ -196,67 +243,38 @@ namespace List
             }
         }
 
-        public void AddNewListToEndList(int[] array)                   // 24. Добавление списка в конец
+        // 24. Добавление списка в конец
+        public void AddNewListToEndList(int[] array)                   
         {
             AddNewListByIndexInList(Length, array);
         }
-        public void AddNewListToBeginList(int[] array)                    // 25. Добавление списка в начало
+
+        // 25. Добавление списка в начало
+        public void AddNewListToBeginList(int[] array)                    
         {
             AddNewListByIndexInList(0, array);
         }
-        public void AddNewListByIndexInList(int index, int[] array)                   // 26. Добавление списка по индексу
+
+        // 26. Добавление списка по индексу
+        public void AddNewListByIndexInList(int index, int[] array)                   
         {
             CheckUpSize(array.Length);
-            int length = Length - array.Length;
+            int generalLength = Length + array.Length;
+            int length = generalLength - array.Length - index;
 
-            for (int i = index; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
-                _list[i] = _list[i - 1];
+                _list[generalLength - i - 1] = _list[length - i - 1 + index];
             }
 
             for (int i = 0; i < array.Length; i++)
             {
                 _list[index++] = array[i];
+                Length++;
             }
+
         }
 
-
-
-        private void CheckUpSize(int length = 0)
-        {
-            if (Length + length == _list.Length)
-            {
-                UpSize(length);
-            }
-        }
-        private void CheckDownSize(int length = 1)
-        {
-            Length -= length;
-            if (Length < (_list.Length/ 2))
-            {
-                DownSize();
-            }
-        }
-        private void UpSize(int length = 0)
-        {
-            int newLength = (int)((_list.Length + length + 1) * 1.33d);
-            int[] tmpList = new int[newLength];
-            for (int i = 0; i < _list.Length; i++)
-            {
-                tmpList[i] = _list[i];
-            }
-            _list = tmpList;
-        }
-        private void DownSize()
-        {
-            int newLength = (int)(_list.Length * 0.67d + 1);
-            int[] tmpList = new int[newLength];
-            for (int i = 0; i < tmpList.Length; i++)
-            {
-                tmpList[i] = _list[i];
-            }
-            _list = tmpList;
-        }
         public override bool Equals(object obj)
         {
             ArrayList arrayList = (ArrayList)obj;
@@ -288,5 +306,41 @@ namespace List
         {
             throw new NotImplementedException();
         }
+
+        private void CheckUpSize(int length = 0)
+        {
+            if (Length + length >= _list.Length)
+            {
+                UpSize(length);
+            }
+        }
+        private void CheckDownSize(int length = 1)
+        {
+            Length -= length;
+            if (Length < (_list.Length/ 2))
+            {
+                DownSize();
+            }
+        }
+        private void UpSize(int length = 0)
+        {
+            int newLength = (int)((_list.Length + length + 1) * 1.33d);
+            int[] tmpList = new int[newLength];
+            for (int i = 0; i < _list.Length; i++)
+            {
+                tmpList[i] = _list[i];
+            }
+            _list = tmpList;
+        }
+        private void DownSize()
+        {
+            int newLength = (int)(_list.Length * 0.67d + 1);
+            int[] tmpList = new int[newLength];
+            for (int i = 0; i < tmpList.Length; i++)
+            {
+                tmpList[i] = _list[i];
+            }
+            _list = tmpList;
+        }        
     }
 }
