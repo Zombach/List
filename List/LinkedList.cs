@@ -123,19 +123,46 @@ namespace List
         // 4. Удаление из конца одного элемента
         public void RemoveValueInEndInLinkedList()
         {
-            
+            RemoveValueByIndexInLinkedList(Length - 1);
         }
 
         // 5. Удаление из начала одного элемента
         public void RemoveValueInStartInLinkedList()
         {
-            
+            RemoveValueByIndexInLinkedList(0);
         }
 
         // 6. Удаление по индексу одного элемента
-        public void RemoveValueByIndexInLinkedList()
+        public void RemoveValueByIndexInLinkedList(int index)
         {
-            
+            int count = 0;
+            LinkNode currentNode = _root;
+            if (index == 0)
+            {
+                _root = _root.LinkNext;
+            }
+            else
+            {
+                for (int i = 0; i < Length; i++)
+                {
+                    if (index == count + 1)
+                    {
+                        if (index != Length - 1)
+                        {
+                            currentNode.LinkNext = currentNode.LinkNext.LinkNext;
+                        }
+                        else
+                        {
+                            currentNode.LinkNext = null;
+                            _tail = currentNode;
+                        }
+                        break;
+                    }
+                    currentNode = currentNode.LinkNext;
+                    count++;
+                }
+            }            
+            Length--;
         }
 
         // 7. Удаление из конца N элементов
@@ -151,9 +178,45 @@ namespace List
         }
 
         // 9. Удаление по индексу N элементов
-        public void RemoveGivenQuantityOfValuesByIndexInLinkedList()
+        public void RemoveGivenQuantityOfValuesByIndexInLinkedList(int index, int qty = 1)
         {
-            
+            int count = 0;
+            LinkNode currentNode = _root;
+            if (index == 0)
+            {
+                for (int i = 0; i < qty; i++)
+                {
+                    _root = _root.LinkNext;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Length; i++)
+                {
+                    if (index == count + 1)
+                    {
+                        if (index == Length - 1 - qty)
+                        {
+                            for (int j = 0; j < qty; j++)
+                            {
+                                currentNode.LinkNext = currentNode.LinkNext.LinkNext;
+                            }
+                        }
+                        else
+                        {
+                            currentNode.LinkNext = null;                            
+                        }
+                        if (currentNode.LinkNext == null)
+                        {
+                            _tail = currentNode;
+                        }
+                        break;
+                    }
+                    currentNode = currentNode.LinkNext;
+                    count++;
+                }
+            }
+            Length -= qty;
         }
 
         // 12. Первый индекс по значению
