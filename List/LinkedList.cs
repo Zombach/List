@@ -80,15 +80,26 @@ namespace List
         {
             if (Length == 0 || index == 0)
             {
-                _root = new LinkNode(value);
-                _tail = _root;
+                LinkNode newNode = new LinkNode(value);
+                if (Length == 0)
+                {
+                    _root = newNode;
+                    _tail = _root;
+                }
+                else
+                {
+                    newNode.LinkNext = _root;
+                    _root = newNode;
+                }
                 Length++;
+                return;
             }
             else if (Length == index)
             {
                 _tail.LinkNext = new LinkNode(value);
                 _tail = _tail.LinkNext;
                 Length++;
+                return;
             }
             else
             {
