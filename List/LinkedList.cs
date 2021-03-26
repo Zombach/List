@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace List
 {
-    class LinkedList
+    public class LinkedList
     {
         public int Length { get; private set; }
 
-        private Node _root;
-        private Node _tail;
+        private LinkNode _root;
+        private LinkNode _tail;
 
         public int this[int index]
         {
@@ -21,7 +21,7 @@ namespace List
             }
             set
             {
-                
+
             }
         }
 
@@ -37,7 +37,7 @@ namespace List
         public LinkedList(int value)
         {
             Length = 1;
-            _root = new Node(value);
+            _root = new LinkNode(value);
             _tail = _root;
         }
 
@@ -48,44 +48,65 @@ namespace List
             {
                 for (int i = 0; i < values.Length; i++)
                 {
-                    Add(values[i]);
+                    if (Length == 0)
+                    {
+                        _root = new LinkNode(values[i]);
+                        _tail = _root;
+                    }
+                    else
+                    {
+                        _tail.LinkNext = new LinkNode(values[i]);
+                        _tail = _tail.LinkNext;
+                    }
+                    Length++;
                 }
             }
         }
 
-        public void Add(int value)
-        {
-            if (Length == 0)
-            {
-                _root = new Node(value);
-                _tail = _root;
-            }
-            else
-            {
-                _tail.Next = new Node(value);
-                _tail = _tail.Next;
-            }
-
-            Length++;
-        }
-
-
         // 1. Добавление значения в конец
-        public void AddValueLastInLinkedList()
+        public void AddValueLastInLinkedList(int value)
         {
-            
+            AddValueByIndexInLinkedList(value, Length);
         }
 
         // 2. Добавление значения в начало
-        public void AddValueByFirstInLinkedList()
+        public void AddValueByFirstInLinkedList(int value)
         {
-            
+            AddValueByIndexInLinkedList(value, 0);
         }
 
         // 3. Добавление значения по индексу
-        public void AddValueByIndexInLinkedList()
+        public void AddValueByIndexInLinkedList(int value, int index)
         {
-            
+            if (Length == 0 || index == 0)
+            {
+                _root = new LinkNode(value);
+                _tail = _root;
+                Length++;
+            }
+            else if (Length == index)
+            {
+                _tail.LinkNext = new LinkNode(value);
+                _tail = _tail.LinkNext;
+                Length++;
+            }
+            else
+            {
+                int count = 0;
+                LinkNode current = _root;
+                LinkNode addNode = new LinkNode(value);
+                for(int i = 1; i < Length; i++)
+                {
+                    if (count == index - 1)
+                    {
+                        addNode.LinkNext = current.LinkNext;
+                        current.LinkNext = addNode;
+                        Length++;
+                    }
+                    current = current.LinkNext;
+                    count++;                    
+                }
+            }
         }
 
         // 4. Удаление из конца одного элемента
@@ -206,6 +227,67 @@ namespace List
         public void AddNewListByIndexInLinkedList()
         {
 
+        }
+
+        public override string ToString()
+        {
+            string s = string.Empty;
+            if (Length != 0)
+            {
+                LinkNode current = _root;
+                while (!(current.LinkNext is null))
+                {
+                    s += current.Value + " ";
+                    current = current.LinkNext;
+                }
+                s += current.Value + " ";
+            }
+
+            return s;
+        }
+
+        public override bool Equals(object obj)
+        {
+            LinkedList list = (LinkedList)obj;
+            if (this.Length != list.Length)
+            {
+                return false;
+            }
+            if (this.Length == 0)
+            {
+                return true;
+            }
+            if (this._tail.Value != list._tail.Value)
+            {
+                return false;
+            }
+            if (!(this._tail.LinkNext is null) || !(list._tail.LinkNext is null))
+            {
+                return false;
+            }
+            LinkNode currentThis = this._root;
+            LinkNode currentList = list._root;
+
+            while (!(currentThis.LinkNext is null))
+            {
+                if (currentThis.Value != currentList.Value)
+                {
+                    return false;
+                }
+                currentList = currentList.LinkNext;
+                currentThis = currentThis.LinkNext;
+            }
+            if (currentThis.Value != currentList.Value)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

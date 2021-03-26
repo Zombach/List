@@ -7,17 +7,17 @@ namespace ListTests
 {
     class LinkedListTests
     {
-        [TestCase(new int[] { 0, 4, -1, 5 }, 4, new int[] { 0, 4, -1, 5, 4 })]
-        [TestCase(new int[] { }, -2, new int[] { -2 })]
-        [TestCase(new int[] { 5, 1, -10 }, 0, new int[] { 5, 1, -10, 0 })]
-        public void Add_Test(int[] array, int value, int[] expectedArray)
+        [TestCase(new int[] { 0, 4, -1, 5 }, 2, 9, new int[] { 0, 4, 9, -1, 5 })]
+        [TestCase(new int[] { }, 0, 5, new int[] { 5 })]
+        [TestCase(new int[] { 5, 1, -10 }, 3, 0, new int[] { 5, 1, -10, 0 })]
+        public void Add_Test(int[] list, int index, int value, int[] expectedArray)
         {
-            //LinkedList actual = new LinkedList(array);
-            //actual.Add(value);
-            //LinkedList expected = new LinkedList(expectedArray);
-            //Assert.AreEqual(expected, actual);
+            LinkedList actual = new LinkedList(list);
+            actual.AddValueByIndexInLinkedList(value, index);
+            LinkedList expected = new LinkedList(expectedArray);
+            Assert.AreEqual(expected, actual);
         }
 
-       
+
     }
 }

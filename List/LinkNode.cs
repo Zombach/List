@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace List
 {
-    class Node
+    class LinkNode
     {
         public int Value { get; set; }
-        public Node Next;
+        public LinkNode LinkNext;
 
-        public Node(int value)
+        public LinkNode(int value)
         {
             Value = value;
-            Next = null;
+            LinkNext = null;
         }
     }
 }
