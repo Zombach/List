@@ -123,58 +123,31 @@ namespace List
         // 4. Удаление из конца одного элемента
         public void RemoveValueInEndInLinkedList()
         {
-            RemoveValueByIndexInLinkedList(Length - 1);
+            RemoveGivenQuantityOfValuesByIndexInLinkedList(Length - 1);
         }
 
         // 5. Удаление из начала одного элемента
         public void RemoveValueInStartInLinkedList()
         {
-            RemoveValueByIndexInLinkedList(0);
+            RemoveGivenQuantityOfValuesByIndexInLinkedList(0);
         }
 
         // 6. Удаление по индексу одного элемента
         public void RemoveValueByIndexInLinkedList(int index)
         {
-            int count = 0;
-            LinkNode currentNode = _root;
-            if (index == 0)
-            {
-                _root = _root.LinkNext;
-            }
-            else
-            {
-                for (int i = 0; i < Length; i++)
-                {
-                    if (index == count + 1)
-                    {
-                        if (index != Length - 1)
-                        {
-                            currentNode.LinkNext = currentNode.LinkNext.LinkNext;
-                        }
-                        else
-                        {
-                            currentNode.LinkNext = null;
-                            _tail = currentNode;
-                        }
-                        break;
-                    }
-                    currentNode = currentNode.LinkNext;
-                    count++;
-                }
-            }            
-            Length--;
+            RemoveGivenQuantityOfValuesByIndexInLinkedList(index);
         }
 
         // 7. Удаление из конца N элементов
-        public void RemoveGivenQuantityOfValuesTheEndByLinkedList()
+        public void RemoveGivenQuantityOfValuesTheEndByLinkedList(int qty)
         {
-            
+            RemoveGivenQuantityOfValuesByIndexInLinkedList(Length - 1, qty);
         }
 
         // 8. Удаление из начала N элементов
-        public void RemoveGivenQuantityOfValuesTheStartByLinkedList()
+        public void RemoveGivenQuantityOfValuesTheStartByLinkedList(int qty)
         {
-            
+            RemoveGivenQuantityOfValuesByIndexInLinkedList(0, qty);
         }
 
         // 9. Удаление по индексу N элементов
