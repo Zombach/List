@@ -2,12 +2,13 @@
 
 namespace List
 {
-    public class LinkedList
+    public class DoubleLinkedList
     {
         public int Length { get; private set; }
 
-        private Link _root;
-        private Link _tail;        
+        private DoubleLink _root;
+        private DoubleLink _tail;
+        private DoubleLink _previous;
 
         public int this[int index]
         {
@@ -22,7 +23,7 @@ namespace List
         }
 
         // 23.1 3 конструктора (пустой)  
-        public LinkedList()
+        public DoubleLinkedList()
         {
             Length = 0;
             _root = null;
@@ -30,25 +31,25 @@ namespace List
         }
 
         // 23.2 3 конструктора (на основе одного элемента)
-        public LinkedList(int value)
+        public DoubleLinkedList(int value)
         {
             Length = 1;
-            _root = new Link(value);
+            _root = new DoubleLink(value);
             _tail = _root;
         }
 
         // 23.3 3 конструктора (на основе массива )
-        public LinkedList(int[] values)
+        public DoubleLinkedList(int[] values)
         {
             if (values.Length != 0)
             {
                 if (Length == 0)
                 {
-                    AddValueByFirstInLinkedList(values[0]);
+                    AddValueByFirstInDoubleLinkedList(values[0]);
                 }
                 for (int i = 1; i < values.Length; i++)
                 {
-                    AddValueLastInLinkedList(values[i]);                    
+                    AddValueLastInDoubleLinkedList(values[i]);
                 }
             }
             else
@@ -60,59 +61,68 @@ namespace List
         }
 
         // 1. Добавление значения в конец
-        public void AddValueLastInLinkedList(int value)
+        public void AddValueLastInDoubleLinkedList(int value)
         {
-            if (Length != 0)
+            if (Length >= 1)
             {
-                _tail.LinkNext = new Link(value);
+                _tail.LinkNext = new DoubleLink(value);
+                _previous = _tail;
+                _tail = _tail.LinkNext;                
+                Length++;
+            }
+            else if (Length == 0)
+            {
+                _tail.LinkNext = new DoubleLink(value);
                 _tail = _tail.LinkNext;
                 Length++;
             }
             else
             {
-                AddValueByFirstInLinkedList(value);
+                AddValueByFirstInDoubleLinkedList(value);
             }
         }
 
         // 2. Добавление значения в начало
-        public void AddValueByFirstInLinkedList(int value)
+        public void AddValueByFirstInDoubleLinkedList(int value)
         {
-            Link _new = new Link(value);
+            DoubleLink _newDoubleLink = new DoubleLink(value);
             if (Length != 0)
             {
-                _new.LinkNext = _root;
-                _root = _new;
+                _newDoubleLink.LinkNext = _root;
+                _root = _newDoubleLink;
+                _previous = _root;
             }
             else
             {
-                _root = _new;
+                _root = _newDoubleLink;
                 _tail = _root;
+                _previous = null;
             }
             Length++;
         }
 
         // 3. Добавление значения по индексу
-        public void AddValueByIndexInLinkedList(int value, int index)
+        public void AddValueByIndexInDoubleLinkedList(int value, int index)
         {
-            CheckExceptionIndex(index);            
+            CheckExceptionIndex(index);
             if (NodeBegin(value, index) || NodeLast(value, index))
             {
                 return;
             }
-            Link current = GetNodeByIndex(index - 1);
-            Link _new = new Link(value);
+            DoubleLink current = GetNodeByIndex(index - 1);
+            DoubleLink _new = new DoubleLink(value);
             _new.LinkNext = current.LinkNext;
             current.LinkNext = _new;
             Length++;
         }
 
-        
+
         private bool NodeBegin(int value, int index)
         {
             bool check = false;
             if (index == 0)
             {
-                AddValueByFirstInLinkedList(value);
+                AddValueByFirstInDoubleLinkedList(value);
                 check = true;
             }
             return check;
@@ -123,7 +133,7 @@ namespace List
             bool check = false;
             if (index == Length)
             {
-                AddValueLastInLinkedList(value);
+                AddValueLastInDoubleLinkedList(value);
                 check = true;
             }
             return check;
@@ -131,51 +141,51 @@ namespace List
 
 
         // 4. Удаление из конца одного элемента
-        public void RemoveValueInEndInLinkedList()
+        public void RemoveValueInEndInDoubleLinkedList()
         {
             if (Length > 1)
             {
-                Link current = GetNodeByIndex(Length - 2);
+                DoubleLink current = GetNodeByIndex(Length - 2);
                 current.LinkNext = null;
                 _tail = current;
-                Length--;                
+                Length--;
             }
             else
             {
                 _root = null;
                 Length = 0;
             }
-            
+
         }
 
         // 5. Удаление из начала одного элемента
-        public void RemoveValueInStartInLinkedList()
+        public void RemoveValueInStartInDoubleLinkedList()
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(0);
+            RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(0);
         }
 
         // 6. Удаление по индексу одного элемента
-        public void RemoveValueByIndexInLinkedList(int index)
+        public void RemoveValueByIndexInDoubleLinkedList(int index)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(index);
+            RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(index);
         }
 
         // 7. Удаление из конца N элементов
-        public void RemoveGivenQuantityOfValuesTheEndByLinkedList(int qty)
+        public void RemoveGivenQuantityOfValuesTheEndByDoubleLinkedList(int qty)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(Length - 1, qty);
+            RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(Length - 1, qty);
         }
 
         // 8. Удаление из начала N элементов
-        public void RemoveGivenQuantityOfValuesTheStartByLinkedList(int qty)
+        public void RemoveGivenQuantityOfValuesTheStartByDoubleLinkedList(int qty)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(0, qty);
+            RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(0, qty);
         }
 
         // 9. Удаление по индексу N элементов
-        public void RemoveGivenQuantityOfValuesByIndexInLinkedList(int index, int qty = 1)
+        public void RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(int index, int qty = 1)
         {
-            Link current = _root;
+            DoubleLink current = _root;
             int count = 0;
             if (index == 0)
             {
@@ -206,10 +216,10 @@ namespace List
                             {
                                 current.LinkNext = current.LinkNext.LinkNext;
                             }
-                        }                        
+                        }
                         else
                         {
-                            current.LinkNext = current.LinkNext.LinkNext;                            
+                            current.LinkNext = current.LinkNext.LinkNext;
                         }
                         if (current.LinkNext == null)
                         {
@@ -227,7 +237,7 @@ namespace List
         // 12. Первый индекс по значению
         public int GetFirstIndexByValue(int value)
         {
-            Link current = _root;
+            DoubleLink current = _root;
             int index = -1;
             for (int i = 0; i < Length; i++)
             {
@@ -244,7 +254,7 @@ namespace List
         // 13. Изменение по индексу
         public void ChangeValueByIndex(int index, int value)
         {
-            Link current = _root;
+            DoubleLink current = _root;
             for (int i = 0; i < Length; i++)
             {
                 if (i == index)
@@ -257,52 +267,52 @@ namespace List
         }
 
         // 14. Реверс (123 -> 321)
-        public void ReversLinkedList()
+        public void ReversDoubleLinkedList()
         {
-                if (Length > 1)
+            if (Length > 1)
+            {
+                _tail = _root;
+                DoubleLink previous = null;
+                DoubleLink next = _root.LinkNext;
+                while (!(_root.LinkNext is null))
                 {
-                    _tail = _root;
-                    Link previous = null;
-                    Link next = _root.LinkNext;
-                    while (!(_root.LinkNext is null))
-                    {
-                        _root.LinkNext = previous;
-                        previous = _root;
-                        _root = next;
-                        next = next.LinkNext;
-                    }
                     _root.LinkNext = previous;
+                    previous = _root;
+                    _root = next;
+                    next = next.LinkNext;
                 }
+                _root.LinkNext = previous;
+            }
         }
 
         // 15. Поиск значения максимального элемента
-        public int FindMaxValueByLinkedList()
+        public int FindMaxValueByDoubleLinkedList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: true, value: true);
+            return FindIndexMaxOrMinValueByDoubleLinkedList(maxOrMin: true, value: true);
         }
 
         // 16. Поиск значения минимального элемента
-        public int FindMinValueByLinkedList()
+        public int FindMinValueByDoubleLinkedList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: false, value: true);
+            return FindIndexMaxOrMinValueByDoubleLinkedList(maxOrMin: false, value: true);
         }
 
         // 17. Поиск индекс максимального элемента
-        public int FindIndexMaxValueByLinkedList()
-        {            
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: true);
+        public int FindIndexMaxValueByDoubleLinkedList()
+        {
+            return FindIndexMaxOrMinValueByDoubleLinkedList(maxOrMin: true);
         }
 
         // 18. Поиск индекс минимального элемента
-        public int FindIndexMinValueByLinkedList()
+        public int FindIndexMinValueByDoubleLinkedList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin :false);
+            return FindIndexMaxOrMinValueByDoubleLinkedList(maxOrMin: false);
         }
 
-        private int FindIndexMaxOrMinValueByLinkedList(bool maxOrMin = true, bool value = false)
+        private int FindIndexMaxOrMinValueByDoubleLinkedList(bool maxOrMin = true, bool value = false)
         {
             CheckNullReferenceException();
-            Link current = _root;
+            DoubleLink current = _root;
             int tmpValue = _root.Value;
             int index = 0;
             for (int i = 0; i < Length; i++)
@@ -321,7 +331,7 @@ namespace List
             return index;
         }
 
-        public bool FindMaxOrMin(Link current, bool maxOrMin)
+        public bool FindMaxOrMin(DoubleLink current, bool maxOrMin)
         {
             if (maxOrMin && current.Value < _root.Value || !maxOrMin && current.Value > _root.Value)
             {
@@ -344,8 +354,8 @@ namespace List
         private void SortingList(bool ascendingOrDescending = true)
         {
             if (Length == 0) return;
-            Link temp = _tail;
-            for (Link current = _root; temp.LinkNext != _root.LinkNext;)
+            DoubleLink temp = _tail;
+            for (DoubleLink current = _root; temp.LinkNext != _root.LinkNext;)
             {
                 if (SortAscendingOrDescending(temp, current, ascendingOrDescending))
                 {
@@ -362,7 +372,7 @@ namespace List
                 current = current.LinkNext;
             }
         }
-        private bool SortAscendingOrDescending(Link temp, Link current, bool ascendingOrDescending)
+        private bool SortAscendingOrDescending(DoubleLink temp, DoubleLink current, bool ascendingOrDescending)
         {
             if (ascendingOrDescending && temp.Value < current.Value || !ascendingOrDescending && temp.Value > current.Value)
             {
@@ -372,38 +382,38 @@ namespace List
         }
 
         // 21. Удаление по значению первого
-        public void RemoveByValueFirstMatchInLinkedList(int value)
+        public void RemoveByValueFirstMatchInDoubleLinkedList(int value)
         {
-            RemoveByValusInLinkedList(value, false);
+            RemoveByValusInDoubleLinkedList(value, false);
         }
 
         // 22. Удаление по значению всех
-        public void RemoveByValueAllMatchInLinkedList(int value)
+        public void RemoveByValueAllMatchInDoubleLinkedList(int value)
         {
-            RemoveByValusInLinkedList(value);
+            RemoveByValusInDoubleLinkedList(value);
         }
 
-        private void RemoveByValusInLinkedList(int value, bool allOrOne = true)
+        private void RemoveByValusInDoubleLinkedList(int value, bool allOrOne = true)
         {
             if (!NeedToDelete()) return;
 
-            Link current = _root;
+            DoubleLink current = _root;
             for (int index = 0; index < Length; index++)
             {
                 if (current.Value == value)
                 {
                     if (index == 0)
                     {
-                        RemoveValueInStartInLinkedList();
+                        RemoveValueInStartInDoubleLinkedList();
                     }
                     else if (index == Length - 1)
                     {
-                        RemoveValueInEndInLinkedList();
+                        RemoveValueInEndInDoubleLinkedList();
                         break;
                     }
                     else
                     {
-                        RemoveGivenQuantityOfValuesByIndexInLinkedList(index);                        
+                        RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(index);
                     }
                     if (AllOrOneValue(allOrOne))
                     {
@@ -430,11 +440,11 @@ namespace List
         }
 
         // 24. Добавление списка в конец
-        public void AddNewListToEndLinkedList(LinkedList addArray)
+        public void AddNewListToEndDoubleLinkedList(DoubleLinkedList addArray)
         {
-            LinkedList copyList = CopyLinkedList(addArray);
+            DoubleLinkedList copyList = CopyDoubleLinkedList(addArray);
             if (Length != 0 && addArray.Length != 0)
-            {                
+            {
                 _tail.LinkNext = copyList._root;
                 _tail = copyList._tail;
             }
@@ -450,9 +460,9 @@ namespace List
         }
 
         // 25. Добавление списка в начало
-        public void AddNewListToBeginLinkedList(LinkedList addArray)
+        public void AddNewListToBeginDoubleLinkedList(DoubleLinkedList addArray)
         {
-            LinkedList copyList = CopyLinkedList(addArray);
+            DoubleLinkedList copyList = CopyDoubleLinkedList(addArray);
             if (Length != 0 && addArray.Length != 0)
             {
                 copyList._tail.LinkNext = _root;
@@ -470,7 +480,7 @@ namespace List
         }
 
         // 26. Добавление списка по индексу
-        public void AddNewListByIndexInLinkedList(LinkedList addArray, int index)
+        public void AddNewListByIndexInDoubleLinkedList(DoubleLinkedList addArray, int index)
         {
             CheckExceptionIndex(index);
 
@@ -478,19 +488,19 @@ namespace List
             {
                 if (index == 0)
                 {
-                    AddNewListToBeginLinkedList(addArray);
+                    AddNewListToBeginDoubleLinkedList(addArray);
                 }
                 else
                 {
-                    AddNewListToEndLinkedList(addArray);
+                    AddNewListToEndDoubleLinkedList(addArray);
                 }
                 return;
             }
 
-            LinkedList copyList = CopyLinkedList(addArray);
+           DoubleLinkedList copyList = CopyDoubleLinkedList(addArray);
             if (Length != 0 && addArray.Length != 0)
             {
-                Link tmp = GetNodeByIndex(index - 1);
+                DoubleLink tmp = GetNodeByIndex(index - 1);
                 copyList._tail.LinkNext = tmp.LinkNext;
                 tmp.LinkNext = copyList._root;
             }
@@ -505,22 +515,22 @@ namespace List
             Length += copyList.Length;
         }
 
-        public LinkedList CopyLinkedList(LinkedList list)
+        public DoubleLinkedList CopyDoubleLinkedList(DoubleLinkedList list)
         {
-            LinkedList newList = new LinkedList();
+            DoubleLinkedList newList = new DoubleLinkedList();
             if (list.Length != 0)
             {
-                Link current;
+                DoubleLink current;
                 current = list._root;
                 for (int i = 0; i < list.Length; i++)
                 {
-                    newList.AddValueLastInLinkedList(current.Value);
+                    newList.AddValueLastInDoubleLinkedList(current.Value);
                     current = current.LinkNext;
                 }
             }
             else
             {
-                newList = new LinkedList();
+                newList = new DoubleLinkedList();
             }
             return newList;
         }
@@ -530,7 +540,7 @@ namespace List
             string s = string.Empty;
             if (Length != 0)
             {
-                Link current = _root;
+                DoubleLink current = _root;
                 while (!(current.LinkNext is null))
                 {
                     s += current.Value + " ";
@@ -544,7 +554,7 @@ namespace List
 
         public override bool Equals(object obj)
         {
-            LinkedList list = (LinkedList)obj;
+            DoubleLinkedList list = (DoubleLinkedList)obj;
             if (this.Length != list.Length)
             {
                 return false;
@@ -561,8 +571,8 @@ namespace List
             {
                 return false;
             }
-            Link currentThis = this._root;
-            Link currentList = list._root;
+            DoubleLink currentThis = this._root;
+            DoubleLink currentList = list._root;
 
             while (!(currentThis.LinkNext is null))
             {
@@ -601,19 +611,19 @@ namespace List
                 throw new NullReferenceException();
             }
         }
-        
 
-        public Link GetNodeByIndex(int index)
+
+        public DoubleLink GetNodeByIndex(int index)
         {
             CheckExceptionIndex(index);
-            Link current = _root;
+            DoubleLink current = _root;
             if (index == Length - 1)
             {
                 current = _tail;
             }
             else
             {
-                for(int i = 1; i <= index; i++)
+                for (int i = 1; i <= index; i++)
                 {
                     current = current.LinkNext;
                 }

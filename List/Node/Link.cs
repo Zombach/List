@@ -1,11 +1,11 @@
 ﻿namespace List
 {
-    public class LinkNode
+    public class Link
     {
         public int Value { get; set; }
-        public LinkNode LinkNext { get; set; }
+        public Link LinkNext { get; set; }
 
-        public LinkNode(int value)
+        public Link(int value)
         {
             Value = value;
             LinkNext = null;

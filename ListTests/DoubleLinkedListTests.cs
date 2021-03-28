@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ListTests
 {
-    class LinkedListTests
+    class DoubleDoubleLinkedListTests
     {
         // 1. Добавление значения в конец
         [TestCase(new int[] { 0, 4, -1, 5 }, 9, new int[] { 0, 4, -1, 5, 9 })]
@@ -13,9 +13,9 @@ namespace ListTests
         [TestCase(new int[] { 5, 1, -10 }, 3, new int[] { 5, 1, -10, 3 })]
         public void AddValueLastInLinkedListTests(int[] list, int value, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.AddValueLastInLinkedList(value);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.AddValueLastInDoubleLinkedList(value);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -23,11 +23,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, -1, 5 }, 7, new int[] { 7, 0, 4, -1, 5 })]
         [TestCase(new int[] { }, 5, new int[] { 5 })]
         [TestCase(new int[] { 5, 1, -10 }, 3, new int[] { 3, 5, 1, -10 })]
-        public void AddValueByFirstInLinkedListTests(int[] list, int value, int[] expectedArray)
+        public void AddValueByFirstInDoubleLinkedListTests(int[] list, int value, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.AddValueByFirstInLinkedList(value);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.AddValueByFirstInDoubleLinkedList(value);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -35,11 +35,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, -1, 5 }, 9, 2, new int[] { 0, 4, 9, -1, 5 })]
         [TestCase(new int[] { }, 5, 0, new int[] { 5 })]
         [TestCase(new int[] { 5, 1, -10 }, 0, 3, new int[] { 5, 1, -10, 0 })]
-        public void AddValueByIndexInLinkedListTests(int[] list, int value, int index, int[] expectedArray)
+        public void AddValueByIndexInDoubleLinkedListTests(int[] list, int value, int index, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.AddValueByIndexInLinkedList(value, index);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.AddValueByIndexInDoubleLinkedList(value, index);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -48,11 +48,11 @@ namespace ListTests
         [TestCase(new int[] { 5 }, new int[] { })]
         [TestCase(new int[] { }, new int[] { })]
         [TestCase(new int[] { 5, 1, -10 }, new int[] { 5, 1 })]
-        public void RemoveValueInEndInLinkedListTests(int[] list, int[] expectedArray)
+        public void RemoveValueInEndInDoubleLinkedListTests(int[] list, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveValueInEndInLinkedList();
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveValueInEndInDoubleLinkedList();
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -60,11 +60,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, -1, 5 }, new int[] { 4, -1, 5 })]
         [TestCase(new int[] { 5 }, new int[] { })]
         [TestCase(new int[] { 5, 1, -10 }, new int[] { 1, -10 })]
-        public void RemoveValueInStartInLinkedListTests(int[] list, int[] expectedArray)
+        public void RemoveValueInStartInDoubleLinkedListTests(int[] list, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveValueInStartInLinkedList();
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveValueInStartInDoubleLinkedList();
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -72,11 +72,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, -1, 5 }, 2, new int[] { 0, 4, 5 })]
         [TestCase(new int[] { 5 }, 0, new int[] { })]
         [TestCase(new int[] { 5, 1, -10 }, 2, new int[] { 5, 1 })]
-        public void RemoveValueByIndexInLinkedListTests(int[] list, int index, int[] expectedArray)
+        public void RemoveValueByIndexInDoubleLinkedListTests(int[] list, int index, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveValueByIndexInLinkedList(index);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveValueByIndexInDoubleLinkedList(index);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -84,11 +84,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 6, new int[] { 0, 4, 9 })]
         [TestCase(new int[] { 5 }, 1, new int[] { })]
         [TestCase(new int[] { 5, 1, -10, 5 }, 1, new int[] { 5, 1, -10 })]
-        public void RemoveGivenQuantityOfValuesTheEndByLinkedListTests(int[] list, int qty, int[] expectedArray)
+        public void RemoveGivenQuantityOfValuesTheEndByDoubleLinkedListTests(int[] list, int qty, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveGivenQuantityOfValuesTheEndByLinkedList(qty);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveGivenQuantityOfValuesTheEndByDoubleLinkedList(qty);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -96,11 +96,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 6, new int[] { 8, -1, 5 })]
         [TestCase(new int[] { 5 }, 1, new int[] { })]
         [TestCase(new int[] { 5, 1, -10, 5 }, 1, new int[] { 1, -10, 5 })]
-        public void RemoveGivenQuantityOfValuesTheStartByLinkedListTests(int[] list, int qty, int[] expectedArray)
+        public void RemoveGivenQuantityOfValuesTheStartByDoubleLinkedListTests(int[] list, int qty, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveGivenQuantityOfValuesTheStartByLinkedList(qty);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveGivenQuantityOfValuesTheStartByDoubleLinkedList(qty);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -108,11 +108,11 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 2, 6, new int[] { 0, 4, 5 })]
         [TestCase(new int[] { 5 }, 0, 1, new int[] { })]
         [TestCase(new int[] { 5, 1, -10, 5 }, 3, 1, new int[] { 5, 1, -10 })]
-        public void RemoveGivenQuantityOfValuesByIndexInLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
+        public void RemoveGivenQuantityOfValuesByIndexInDoubleLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveGivenQuantityOfValuesByIndexInLinkedList(index, qty);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveGivenQuantityOfValuesByIndexInDoubleLinkedList(index, qty);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -122,7 +122,7 @@ namespace ListTests
         [TestCase(new int[] { 5, 1, -10, 5 }, 1, 1)]
         public void GetFirstIndexByValueTests(int[] list, int value, int  expected)
         {
-            LinkedList array = new LinkedList(list);
+            DoubleLinkedList array = new DoubleLinkedList(list);
             int actual = array.GetFirstIndexByValue(value);
             Assert.AreEqual(expected, actual);
         }
@@ -133,9 +133,9 @@ namespace ListTests
         [TestCase(new int[] { 5, 1, -10, 5 }, 1, 7, new int[] { 5, 7, -10, 5 })]
         public void ChangeValueByIndexTests(int[] list, int index, int value, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
             actual.ChangeValueByIndex(index, value);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -144,11 +144,11 @@ namespace ListTests
         [TestCase(new int[] { 5 }, new int[] { 5 })]
         [TestCase(new int[] { 5, 3 }, new int[] { 3, 5 })]
         [TestCase(new int[] { 5, 1, -10, 5 }, new int[] { 5, -10, 1, 5 })]
-        public void ReversLinkedListTests(int[] list, int[] expectedArray)
+        public void ReversDoubleLinkedListTests(int[] list, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.ReversLinkedList();
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.ReversDoubleLinkedList();
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }    
 
@@ -157,10 +157,10 @@ namespace ListTests
         [TestCase(new int[] { 5 }, 5)]
         [TestCase(new int[] { 5, 1, -10, 5 }, 5)]
         [TestCase(new int[] { 5, 1, -10, 20 }, 20)]
-        public void FindMaxValueByLinkedListTests(int[] list, int expected)
+        public void FindMaxValueByDoubleLinkedListTests(int[] list, int expected)
         {
-            LinkedList array = new LinkedList(list);
-            int actual = array.FindMaxValueByLinkedList();
+            DoubleLinkedList array = new DoubleLinkedList(list);
+            int actual = array.FindMaxValueByDoubleLinkedList();
             Assert.AreEqual(expected, actual);
         }
 
@@ -169,10 +169,10 @@ namespace ListTests
         [TestCase(new int[] { 5 }, 5)]
         [TestCase(new int[] { 5, 1, -10, 5 }, -10)]
         [TestCase(new int[] { 5, 1, -10, -20 }, -20)]
-        public void FindMinValueByLinkedListTests(int[] list, int expected)
+        public void FindMinValueByDoubleLinkedListTests(int[] list, int expected)
         {
-            LinkedList array = new LinkedList(list);
-            int actual = array.FindMinValueByLinkedList();
+            DoubleLinkedList array = new DoubleLinkedList(list);
+            int actual = array.FindMinValueByDoubleLinkedList();
             Assert.AreEqual(expected, actual);
         }
 
@@ -181,10 +181,10 @@ namespace ListTests
         [TestCase(new int[] { 5 }, 0)]
         [TestCase(new int[] { 5, 1, -10, 5 }, 0)]
         [TestCase(new int[] { 5, 1, -10, 20 }, 3)]
-        public void FindIndexMaxValueByLinkedListTests(int[] list, int expected)
+        public void FindIndexMaxValueByDoubleLinkedListTests(int[] list, int expected)
         {
-            LinkedList array = new LinkedList(list);
-            int actual = array.FindIndexMaxValueByLinkedList();
+            DoubleLinkedList array = new DoubleLinkedList(list);
+            int actual = array.FindIndexMaxValueByDoubleLinkedList();
             Assert.AreEqual(expected, actual);
         }
 
@@ -193,10 +193,10 @@ namespace ListTests
         [TestCase(new int[] { 5 }, 0)]
         [TestCase(new int[] { 5, 1, -10, 5 }, 2)]
         [TestCase(new int[] { 5, 1, -10, -20 }, 3)]
-        public void FindIndexMinValueByLinkedListTests(int[] list, int expected)
+        public void FindIndexMinValueByDoubleLinkedListTests(int[] list, int expected)
         {
-            LinkedList array = new LinkedList(list);
-            int actual = array.FindIndexMinValueByLinkedList();
+            DoubleLinkedList array = new DoubleLinkedList(list);
+            int actual = array.FindIndexMinValueByDoubleLinkedList();
             Assert.AreEqual(expected, actual);
         }
 
@@ -208,9 +208,9 @@ namespace ListTests
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, new int[] { 1, 1, 1, 1, 2, 2, 2, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8 })]
         public void SortAscendingTests(int[] list, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
             actual.SortAscending();
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -222,9 +222,9 @@ namespace ListTests
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, new int[] { 8, 7, 6, 6, 5, 5, 4, 4, 4, 3, 2, 2, 2, 1, 1, 1, 1 })]
         public void SortDescendingTests(int[] list, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
             actual.SortDescending();
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -238,11 +238,11 @@ namespace ListTests
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        public void RemoveByValueFirstMatchInLinkedListTests(int[] list, int value, int[] expectedArray)
+        public void RemoveByValueFirstMatchInDoubleLinkedListTests(int[] list, int value, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveByValueFirstMatchInLinkedList(value);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveByValueFirstMatchInDoubleLinkedList(value);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -256,11 +256,11 @@ namespace ListTests
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
         [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        public void RemoveByValueAllMatchInLinkedListTests(int[] list, int value, int[] expectedArray)
+        public void RemoveByValueAllMatchInDoubleLinkedListTests(int[] list, int value, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveByValueAllMatchInLinkedList(value);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            actual.RemoveByValueAllMatchInDoubleLinkedList(value);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -271,12 +271,12 @@ namespace ListTests
         [TestCase(new int[] { }, new int[] { }, new int[] { })]
         [TestCase(new int[] { }, new int[] { 3 }, new int[] { 3 })]
         [TestCase(new int[] { 2 }, new int[] { }, new int[] { 2 })]
-        public void AddNewListToEndLinkedListTests(int[] list, int[] addList, int[] expectedArray)
+        public void AddNewListToEndDoubleLinkedListTests(int[] list, int[] addList, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            LinkedList addArray = new LinkedList(addList);
-            actual.AddNewListToEndLinkedList(addArray);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            DoubleLinkedList addArray = new DoubleLinkedList(addList);
+            actual.AddNewListToEndDoubleLinkedList(addArray);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -287,12 +287,12 @@ namespace ListTests
         [TestCase(new int[] { }, new int[] { }, new int[] { })]
         [TestCase(new int[] { }, new int[] { 3 }, new int[] { 3 })]
         [TestCase(new int[] { 2 }, new int[] { }, new int[] { 2 })]
-        public void AddNewListToBeginLinkedListTests(int[] list, int[] addList, int[] expectedArray)
+        public void AddNewListToBeginDoubleLinkedListTests(int[] list, int[] addList, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            LinkedList addArray = new LinkedList(addList);
-            actual.AddNewListToBeginLinkedList(addArray);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            DoubleLinkedList addArray = new DoubleLinkedList(addList);
+            actual.AddNewListToBeginDoubleLinkedList(addArray);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
@@ -304,12 +304,12 @@ namespace ListTests
         [TestCase(new int[] { }, new int[] { 3 }, 0, new int[] { 3 })]
         [TestCase(new int[] { 2 }, new int[] { }, 0, new int[] { 2 })]
         [TestCase(new int[] { 3 }, new int[] { }, 1, new int[] { 3 })]
-        public void AddNewListByIndexInLinkedListTests(int[] list, int[] addList, int index, int[] expectedArray)
+        public void AddNewListByIndexInDoubleLinkedListTests(int[] list, int[] addList, int index, int[] expectedArray)
         {
-            LinkedList actual = new LinkedList(list);
-            LinkedList addArray = new LinkedList(addList);
-            actual.AddNewListByIndexInLinkedList(addArray, index);
-            LinkedList expected = new LinkedList(expectedArray);
+            DoubleLinkedList actual = new DoubleLinkedList(list);
+            DoubleLinkedList addArray = new DoubleLinkedList(addList);
+            actual.AddNewListByIndexInDoubleLinkedList(addArray, index);
+            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
 
