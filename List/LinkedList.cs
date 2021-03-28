@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace List
 {
@@ -12,16 +8,17 @@ namespace List
 
         private LinkNode _root;
         private LinkNode _tail;
+        
 
         public int this[int index]
         {
             get
             {
-                return 0;
+                return GetNodeByIndex(index).Value;
             }
             set
             {
-
+                GetNodeByIndex(index).Value = value;
             }
         }
 
@@ -30,7 +27,7 @@ namespace List
         {
             Length = 0;
             _root = null;
-            _tail = null;
+            _tail = _root;
         }
 
         // 23.2 3 конструктора (на основе одного элемента)
@@ -46,84 +43,110 @@ namespace List
         {
             if (values.Length != 0)
             {
-                for (int i = 0; i < values.Length; i++)
+                if (Length == 0)
                 {
-                    if (Length == 0)
-                    {
-                        _root = new LinkNode(values[i]);
-                        _tail = _root;
-                    }
-                    else
-                    {
-                        _tail.LinkNext = new LinkNode(values[i]);
-                        _tail = _tail.LinkNext;
-                    }
-                    Length++;
+                    AddValueByFirstInLinkedList(values[0]);
                 }
+                for (int i = 1; i < values.Length; i++)
+                {
+                    AddValueLastInLinkedList(values[i]);                    
+                }
+            }
+            else
+            {
+                Length = 0;
+                _root = null;
+                _tail = _root;
             }
         }
 
         // 1. Добавление значения в конец
         public void AddValueLastInLinkedList(int value)
         {
-            AddValueByIndexInLinkedList(value, Length);
+            if (Length != 0)
+            {
+                _tail.LinkNext = new LinkNode(value);
+                _tail = _tail.LinkNext;
+                Length++;
+            }
+            else
+            {
+                AddValueByFirstInLinkedList(value);
+            }
         }
 
         // 2. Добавление значения в начало
         public void AddValueByFirstInLinkedList(int value)
         {
-            AddValueByIndexInLinkedList(value, 0);
+            LinkNode _new = new LinkNode(value);
+            if (Length != 0)
+            {
+                _new.LinkNext = _root;
+                _root = _new;
+            }
+            else
+            {
+                _root = _new;
+                _tail = _root;
+            }
+            Length++;
         }
 
         // 3. Добавление значения по индексу
         public void AddValueByIndexInLinkedList(int value, int index)
         {
-            if (Length == 0 || index == 0)
+            CheckExceptionIndex(index);            
+            if (NodeBegin(value, index) || NodeLast(value, index))
             {
-                LinkNode newNode = new LinkNode(value);
-                if (Length == 0)
-                {
-                    _root = newNode;
-                    _tail = _root;
-                }
-                else
-                {
-                    newNode.LinkNext = _root;
-                    _root = newNode;
-                }
-                Length++;
                 return;
             }
-            else if (Length == index)
-            {
-                _tail.LinkNext = new LinkNode(value);
-                _tail = _tail.LinkNext;
-                Length++;
-                return;
-            }
-            else
-            {
-                int count = 0;
-                LinkNode current = _root;
-                LinkNode addNode = new LinkNode(value);
-                for(int i = 1; i < Length; i++)
-                {
-                    if (count == index - 1)
-                    {
-                        addNode.LinkNext = current.LinkNext;
-                        current.LinkNext = addNode;
-                        Length++;
-                    }
-                    current = current.LinkNext;
-                    count++;                    
-                }
-            }
+            LinkNode _current = GetNodeByIndex(index - 1);
+            LinkNode _new = new LinkNode(value);
+            _new.LinkNext = _current.LinkNext;
+            _current.LinkNext = _new;
+            Length++;
         }
+
+        
+        private bool NodeBegin(int value, int index)
+        {
+            bool check = false;
+            if (index == 0)
+            {
+                AddValueByFirstInLinkedList(value);
+                check = true;
+            }
+            return check;
+        }
+
+        private bool NodeLast(int value, int index)
+        {
+            bool check = false;
+            if (index == Length)
+            {
+                AddValueLastInLinkedList(value);
+                check = true;
+            }
+            return check;
+        }
+
 
         // 4. Удаление из конца одного элемента
         public void RemoveValueInEndInLinkedList()
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(Length - 1);
+            if (Length > 1)
+            {
+                LinkNode _current = GetNodeByIndex(Length - 2);
+                _current.LinkNext = null;
+                _tail = _current;
+                Length--;                
+            }
+            else
+            {
+                _root = null;
+                Length = 0;
+            }
+            
         }
 
         // 5. Удаление из начала одного элемента
@@ -153,14 +176,24 @@ namespace List
         // 9. Удаление по индексу N элементов
         public void RemoveGivenQuantityOfValuesByIndexInLinkedList(int index, int qty = 1)
         {
+            LinkNode _current = _root;
             int count = 0;
-            LinkNode currentNode = _root;
             if (index == 0)
             {
                 for (int i = 0; i < qty; i++)
                 {
                     _root = _root.LinkNext;
                 }
+            }
+            else if (index == Length - 1)
+            {
+                _current = _root;
+                for (int j = 0; j < Length - 1 - qty; j++)
+                {
+                    _current = _current.LinkNext;
+                }
+                _current.LinkNext = null;
+                _tail = _current;
             }
             else
             {
@@ -172,20 +205,20 @@ namespace List
                         {
                             for (int j = 0; j < qty; j++)
                             {
-                                currentNode.LinkNext = currentNode.LinkNext.LinkNext;
+                                _current.LinkNext = _current.LinkNext.LinkNext;
                             }
-                        }
+                        }                        
                         else
                         {
-                            currentNode.LinkNext = null;                            
+                            _current.LinkNext = null;                            
                         }
-                        if (currentNode.LinkNext == null)
+                        if (_current.LinkNext == null)
                         {
-                            _tail = currentNode;
+                            _tail = _current;
                         }
                         break;
                     }
-                    currentNode = currentNode.LinkNext;
+                    _current = _current.LinkNext;
                     count++;
                 }
             }
@@ -193,51 +226,141 @@ namespace List
         }
 
         // 12. Первый индекс по значению
-        public void GetFirstIndexByValue()
+        public int GetFirstIndexByValue(int value)
         {
-           
+            LinkNode _current = _root;
+            int index = -1;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value == value)
+                {
+                    index = i;
+                    break;
+                }
+                _current = _current.LinkNext;
+            }
+            return index;
         }
 
         // 13. Изменение по индексу
-        public void ChangeValueByIndex()
+        public void ChangeValueByIndex(int index, int value)
         {
-            
+            LinkNode _current = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (i == index)
+                {
+                    _current.Value = value;
+                    break;
+                }
+                _current = _current.LinkNext;
+            }
         }
 
         // 14. Реверс (123 -> 321)
         public void ReversLinkedList()
         {
-            
+            //_tail = _root;
+            //LinkNode counter = _root;
+            //for(int i = 0; i < Length - 1; i++)
+            //{
+            //    _current = _current.LinkNext;
+            //    _current = counter;
+            //    _current.LinkNext = _root;
+            //    _root = _current;
+            //}
         }
 
         // 15. Поиск значения максимального элемента
-        public void FindMaxValueByLinkedList()
+        public int FindMaxValueByLinkedList()
         {
-            
+            LinkNode _current = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value < _root.Value)
+                {
+                    _current.Value = _root.Value;
+                }
+                _root = _root.LinkNext;
+            }
+            return _current.Value;
         }
 
         // 16. Поиск значения минимального элемента
-        public void FindMinValueByLinkedList()
+        public int FindMinValueByLinkedList()
         {
-            
+            LinkNode _current = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value > _root.Value)
+                {
+                    _current.Value = _root.Value;
+                }
+                _root = _root.LinkNext;
+            }
+            return _current.Value;
         }
 
         // 17. Поиск индекс максимального элемента
-        public void FindIndexMaxValueByLinkedList()
+        public int FindIndexMaxValueByLinkedList()
         {
-            
+            LinkNode _current = _root;
+            int index = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value < _root.Value)
+                {
+                    index = i;
+                }
+                _root = _root.LinkNext;
+            }
+            return index;
         }
 
-        // 17. Поиск индекс минимального элемента
-        public void FindIndexMinValueByLinkedList()
+        // 18. Поиск индекс минимального элемента
+        public int FindIndexMinValueByLinkedList()
         {
-            
+            LinkNode _current = _root;
+            int index = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value > _root.Value)
+                {
+                    index = i;
+                }
+                _root = _root.LinkNext;
+            }
+            return index;
         }
 
         // 19. Сортировка по возрастанию
         public void SortAscending()
         {
-            
+            if (Length <= 1)
+            {
+                return;
+            }
+            for(LinkNode _current = _root; _current.LinkNext != null; _current = _current.LinkNext)
+            {
+                for (LinkNode minNode = _current; minNode.LinkNext != null; minNode = minNode.LinkNext)
+                {
+                    if (_current.Value > minNode.Value || _current.Value > _tail.Value)
+                    {
+                        if (_current.Value > minNode.Value)
+                        {
+                            int tmp = minNode.Value;
+                            minNode.Value = _current.Value;
+                            _current.Value = tmp;
+                        }
+                        if (_current.Value > _tail.Value)
+                        {
+                            int tmp = _tail.Value;
+                            _tail.Value = _current.Value;
+                            _current.Value = tmp;
+                        }
+                    }
+                }
+            }
         }
 
         // 20. Сортировка по убыванию
@@ -247,27 +370,62 @@ namespace List
         }
 
         // 21. Удаление по значению первого
-        public void RemoveByValueFirstMatchInLinkedList()
+        public void RemoveByValueFirstMatchInLinkedList(int value)
         {
-            
+            LinkNode _current = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value == value)
+                {
+                    _current.LinkNext = _current.LinkNext.LinkNext;
+                    break; 
+                }
+                _current = _current.LinkNext;
+            }
         }
 
-        // 22. Удаление по значению всех(?вернуть кол-во)
-        public void RemoveByValueAllMatchInLinkedList()
+        // 22. Удаление по значению всех
+        public void RemoveByValueAllMatchInLinkedList(int value)
         {
-            
+            LinkNode _current = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_current.Value == value)
+                {
+                    _current.LinkNext = _current.LinkNext.LinkNext;
+                }
+                _current = _current.LinkNext;
+            }
         }
 
         // 24. Добавление списка в конец
-        public void AddNewListToEndLinkedList()
+        public LinkedList AddNewListToEndLinkedList(LinkedList array, LinkedList addArray)
         {
-            
+            if( array.Length != 0 && addArray.Length !=0)
+            {
+                array._tail.LinkNext = addArray._root;
+                array._tail = addArray._tail;
+                array.Length += addArray.Length;
+            }
+            else
+            {
+                if (array.Length == 0)
+                {
+                    array = addArray;
+                }
+            }
+                
+            return array;
         }
 
         // 25. Добавление списка в начало
-        public void AddNewListToBeginLinkedList()
+        public LinkedList AddNewListToBeginLinkedList(LinkedList array, LinkedList addArray)
         {
-            
+            LinkedList tmp = array;
+            array = addArray;
+            addArray = tmp;
+            tmp = AddNewListToEndLinkedList(array, addArray);
+            return tmp;
         }
 
         // 26. Добавление списка по индексу
@@ -328,13 +486,39 @@ namespace List
             {
                 return false;
             }
-
             return true;
         }
 
         public override int GetHashCode()
         {
             throw new NotImplementedException();
+        }
+
+
+        public void CheckExceptionIndex(int index)
+        {
+            if (index < 0 || index > Length)
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public LinkNode GetNodeByIndex(int index)
+        {
+            CheckExceptionIndex(index);
+            LinkNode _current = _root;
+            if (index == Length - 1)
+            {
+                _current = _tail;
+            }
+            else
+            {
+                for(int i = 1; i <= index; i++)
+                {
+                    _current = _current.LinkNext;
+                }
+            }
+            return _current;
         }
     }
 }
