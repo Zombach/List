@@ -106,14 +106,14 @@ namespace ListTests
 
         // 9. Удаление по индексу N элементов
         [TestCase(new int[] { 0, 4, 9, 0 }, 1, 1, new int[] { 0, 9, 0 })]
-        [TestCase(new int[] { 5 }, 3, new int[] { 5 })]
-        [TestCase(new int[] { }, 2, new int[] { })]
-        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 1, new int[] { 3, 4, 5, 5, 6, 6, 2, 2, 4, 4, 2, 8, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 5 }, 0, 0, new int[] { 5 })]
+        [TestCase(new int[] { }, 0, 0, new int[] { })]
+        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 0, 3, new int[] { 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 4, 4, 2, 8, 1, 7 }, 3, 5, new int[] { 3, 4, 5, 7 })]
+        //[TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
+        //[TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
+        //[TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
+        //[TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
         public void RemoveGivenQuantityOfValuesByIndexInLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(list);
