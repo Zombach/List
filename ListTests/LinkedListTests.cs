@@ -105,9 +105,15 @@ namespace ListTests
         }
 
         // 9. Удаление по индексу N элементов
-        [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 2, 6, new int[] { 0, 4, 5 })]
-        [TestCase(new int[] { 5 }, 0, 1, new int[] { })]
-        [TestCase(new int[] { 5, 1, -10, 5 }, 3, 1, new int[] { 5, 1, -10 })]
+        [TestCase(new int[] { 0, 4, 9, 0 }, 1, 1, new int[] { 0, 9, 0 })]
+        [TestCase(new int[] { 5 }, 3, new int[] { 5 })]
+        [TestCase(new int[] { }, 2, new int[] { })]
+        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 1, new int[] { 3, 4, 5, 5, 6, 6, 2, 2, 4, 4, 2, 8, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
+        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
         public void RemoveGivenQuantityOfValuesByIndexInLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(list);
@@ -246,7 +252,7 @@ namespace ListTests
             Assert.AreEqual(expected, actual);
         }
 
-        // 22. Удаление по значению первого
+        // 22. Удаление всех по значению
         [TestCase(new int[] { 0, 4, 9, 0 }, 4, new int[] { 0, 9, 0 })]
         [TestCase(new int[] { 5 }, 3, new int[] { 5 })]
         [TestCase(new int[] { }, 2, new int[] { })]

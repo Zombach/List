@@ -133,25 +133,13 @@ namespace List
         // 4. Удаление из конца одного элемента
         public void RemoveValueInEndInLinkedList()
         {
-            if (Length > 1)
-            {
-                Link current = GetNodeByIndex(Length - 2);
-                current.LinkNext = null;
-                _tail = current;
-                Length--;                
-            }
-            else
-            {
-                _root = null;
-                Length = 0;
-            }
-            
+            RemoveGivenQuantityOfValuesTheEndByLinkedList();
         }
 
         // 5. Удаление из начала одного элемента
         public void RemoveValueInStartInLinkedList()
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(0);
+            RemoveGivenQuantityOfValuesTheStartByLinkedList();
         }
 
         // 6. Удаление по индексу одного элемента
@@ -161,67 +149,83 @@ namespace List
         }
 
         // 7. Удаление из конца N элементов
-        public void RemoveGivenQuantityOfValuesTheEndByLinkedList(int qty)
+        public void RemoveGivenQuantityOfValuesTheEndByLinkedList(int qty = 1)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(Length - 1, qty);
+            Link current = _root;
+            int count = Length - 1 - qty;
+            if (Length != 0)
+            {
+                if(count > 0)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        current = current.LinkNext;
+                    }
+                    current.LinkNext = null;
+                    _tail = current;
+                    Length -= qty;
+                }                    
+                else
+                {
+                    _root = null;
+                    _tail = null;
+                    Length = 0;
+                }
+            }
         }
 
         // 8. Удаление из начала N элементов
-        public void RemoveGivenQuantityOfValuesTheStartByLinkedList(int qty)
+        public void RemoveGivenQuantityOfValuesTheStartByLinkedList(int qty = 1)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(0, qty);
-        }
+            if (Length != 0)
+            {
+                for (int i = 0; i < qty; i++)
+                {
+                    if (Length > 1) _root = _root.LinkNext;
+                    else
+                    {
+                        _root = null;
+                        _tail = null;
+                        Length--;
+                        break;
+                    }
+                    Length--;
+                }
+            }
+            else
+            {
+                return; // ошибку?
+            }
+        }            
 
         // 9. Удаление по индексу N элементов
         public void RemoveGivenQuantityOfValuesByIndexInLinkedList(int index, int qty = 1)
         {
             Link current = _root;
-            int count = 0;
             if (index == 0)
             {
-                for (int i = 0; i < qty; i++)
-                {
-                    _root = _root.LinkNext;
-                }
+                RemoveGivenQuantityOfValuesTheStartByLinkedList(qty);
             }
             else if (index == Length - 1)
             {
-                current = _root;
-                for (int j = 0; j < Length - 1 - qty; j++)
-                {
-                    current = current.LinkNext;
-                }
-                current.LinkNext = null;
-                _tail = current;
+                RemoveGivenQuantityOfValuesTheEndByLinkedList();
             }
             else
             {
-                for (int i = 0; i < Length; i++)
+                current = GetNodeByIndex(index - 1);
+                Link currentNext = GetNodeByIndex(index + qty);
+                if (index + qty >= Length - 1)
                 {
-                    if (index == count + 1)
-                    {
-                        if (index == Length - 1 - qty)
-                        {
-                            for (int j = 0; j < qty; j++)
-                            {
-                                current.LinkNext = current.LinkNext.LinkNext;
-                            }
-                        }                        
-                        else
-                        {
-                            current.LinkNext = current.LinkNext.LinkNext;                            
-                        }
-                        if (current.LinkNext == null)
-                        {
-                            _tail = current;
-                        }
-                        break;
-                    }
-                    current = current.LinkNext;
-                    count++;
+                    current.LinkNext = currentNext;
+                    Length -= qty;
+                }
+                else
+                {
+                    current.LinkNext = null;
+                    _tail = current;
+                    Length = index;
                 }
             }
-            Length -= qty;
         }
 
         // 12. Первый индекс по значению
@@ -405,11 +409,14 @@ namespace List
                     {
                         RemoveGivenQuantityOfValuesByIndexInLinkedList(index);                        
                     }
-                    if (AllOrOneValue(allOrOne))
+
+                    if (allOrOne)
                     {
-                        current = current.LinkNext;
-                        index--;
-                        continue;
+                        if (Length > 0)
+                        {
+                            index--;
+                            continue;
+                        }
                     }
                     break;
                 }
@@ -422,12 +429,7 @@ namespace List
             if (Length == 0) return false;
             return true;
         }
-
-        private bool AllOrOneValue(bool allOrOne)
-        {
-            if (allOrOne) return true;
-            return false;
-        }
+                
 
         // 24. Добавление списка в конец
         public void AddNewListToEndLinkedList(LinkedList addArray)
