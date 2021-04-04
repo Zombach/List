@@ -2,7 +2,7 @@
 
 namespace List
 {
-    public class LinkedList
+    public class LinkedList : IList
     {
         public int Length { get; private set; }
 
@@ -44,11 +44,11 @@ namespace List
             {
                 if (Length == 0)
                 {
-                    AddValueByFirstInLinkedList(values[0]);
+                    AddValueByFirstInList(values[0]);
                 }
                 for (int i = 1; i < values.Length; i++)
                 {
-                    AddValueLastInLinkedList(values[i]);                    
+                    AddValueLastInList(values[i]);                    
                 }
             }
             else
@@ -60,7 +60,7 @@ namespace List
         }
 
         // 1. Добавление значения в конец
-        public void AddValueLastInLinkedList(int value)
+        public void AddValueLastInList(int value)
         {
             if (Length != 0)
             {
@@ -70,12 +70,12 @@ namespace List
             }
             else
             {
-                AddValueByFirstInLinkedList(value);
+                AddValueByFirstInList(value);
             }
         }
 
         // 2. Добавление значения в начало
-        public void AddValueByFirstInLinkedList(int value)
+        public void AddValueByFirstInList(int value)
         {
             Link _new = new Link(value);
             if (Length != 0)
@@ -92,7 +92,7 @@ namespace List
         }
 
         // 3. Добавление значения по индексу
-        public void AddValueByIndexInLinkedList(int value, int index)
+        public void AddValueByIndexInList(int index, int value)
         {
             CheckExceptionIndex(index);            
             if (NodeBegin(value, index) || NodeLast(value, index))
@@ -112,7 +112,7 @@ namespace List
             bool check = false;
             if (index == 0)
             {
-                AddValueByFirstInLinkedList(value);
+                AddValueByFirstInList(value);
                 check = true;
             }
             return check;
@@ -123,7 +123,7 @@ namespace List
             bool check = false;
             if (index == Length)
             {
-                AddValueLastInLinkedList(value);
+                AddValueLastInList(value);
                 check = true;
             }
             return check;
@@ -131,25 +131,25 @@ namespace List
 
 
         // 4. Удаление из конца одного элемента
-        public void RemoveValueInEndInLinkedList()
+        public void RemoveValueInEndInList()
         {
-            RemoveGivenQuantityOfValuesTheEndByLinkedList();
+            RemoveGivenQuantityOfValuesTheEndByList();
         }
 
         // 5. Удаление из начала одного элемента
-        public void RemoveValueInStartInLinkedList()
+        public void RemoveValueInStartInList()
         {
-            RemoveGivenQuantityOfValuesTheStartByLinkedList();
+            RemoveGivenQuantityOfValuesTheStartByList();
         }
 
         // 6. Удаление по индексу одного элемента
-        public void RemoveValueByIndexInLinkedList(int index)
+        public void RemoveValueByIndexInList(int index)
         {
-            RemoveGivenQuantityOfValuesByIndexInLinkedList(index);
+            RemoveGivenQuantityOfValuesByIndexInList(index);
         }
 
         // 7. Удаление из конца N элементов
-        public void RemoveGivenQuantityOfValuesTheEndByLinkedList(int qty = 1)
+        public void RemoveGivenQuantityOfValuesTheEndByList(int qty = 1)
         {
             Link current = _root;
             int count = Length - 1 - qty;
@@ -175,7 +175,7 @@ namespace List
         }
 
         // 8. Удаление из начала N элементов
-        public void RemoveGivenQuantityOfValuesTheStartByLinkedList(int qty = 1)
+        public void RemoveGivenQuantityOfValuesTheStartByList(int qty = 1)
         {
             if (Length != 0)
             {
@@ -199,16 +199,16 @@ namespace List
         }            
 
         // 9. Удаление по индексу N элементов
-        public void RemoveGivenQuantityOfValuesByIndexInLinkedList(int index, int qty = 1)
+        public void RemoveGivenQuantityOfValuesByIndexInList(int index, int qty = 1)
         {
             Link current = _root;
             if (index == 0)
             {
-                RemoveGivenQuantityOfValuesTheStartByLinkedList(qty);
+                RemoveGivenQuantityOfValuesTheStartByList(qty);
             }
             else if (index == Length - 1)
             {
-                RemoveGivenQuantityOfValuesTheEndByLinkedList();
+                RemoveGivenQuantityOfValuesTheEndByList();
             }
             else
             {
@@ -248,6 +248,7 @@ namespace List
         // 13. Изменение по индексу
         public void ChangeValueByIndex(int index, int value)
         {
+            CheckExceptionIndex(index + 1);
             Link current = _root;
             for (int i = 0; i < Length; i++)
             {
@@ -261,7 +262,7 @@ namespace List
         }
 
         // 14. Реверс (123 -> 321)
-        public void ReversLinkedList()
+        public void ReversList()
         {
                 if (Length > 1)
                 {
@@ -280,30 +281,30 @@ namespace List
         }
 
         // 15. Поиск значения максимального элемента
-        public int FindMaxValueByLinkedList()
+        public int FindMaxValueByList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: true, value: true);
+            return FindIndexMaxOrMinValueByList(maxOrMin: true, value: true);
         }
 
         // 16. Поиск значения минимального элемента
-        public int FindMinValueByLinkedList()
+        public int FindMinValueByList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: false, value: true);
+            return FindIndexMaxOrMinValueByList(maxOrMin: false, value: true);
         }
 
         // 17. Поиск индекс максимального элемента
-        public int FindIndexMaxValueByLinkedList()
+        public int FindIndexMaxValueByList()
         {            
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin: true);
+            return FindIndexMaxOrMinValueByList(maxOrMin: true);
         }
 
         // 18. Поиск индекс минимального элемента
-        public int FindIndexMinValueByLinkedList()
+        public int FindIndexMinValueByList()
         {
-            return FindIndexMaxOrMinValueByLinkedList(maxOrMin :false);
+            return FindIndexMaxOrMinValueByList(maxOrMin :false);
         }
 
-        private int FindIndexMaxOrMinValueByLinkedList(bool maxOrMin = true, bool value = false)
+        private int FindIndexMaxOrMinValueByList(bool maxOrMin = true, bool value = false)
         {
             CheckNullReferenceException();
             Link current = _root;
@@ -376,52 +377,62 @@ namespace List
         }
 
         // 21. Удаление по значению первого
-        public void RemoveByValueFirstMatchInLinkedList(int value)
+        public int RemoveByValueFirstMatchInList(int value)
         {
-            RemoveByValusInLinkedList(value, false);
+            return RemoveByValuesInLinkedList(value, true);
         }
 
         // 22. Удаление по значению всех
-        public void RemoveByValueAllMatchInLinkedList(int value)
+        public int RemoveByValueAllMatchInList(int value)
         {
-            RemoveByValusInLinkedList(value);
+            return RemoveByValuesInLinkedList(value);
         }
 
-        private void RemoveByValusInLinkedList(int value, bool allOrOne = true)
+        private int RemoveByValuesInLinkedList(int value, bool oneElement = false)
         {
-            if (!NeedToDelete()) return;
-
+            if (!NeedToDelete()) return -1;
+            int count = 0;
+            int index = -1;
             Link current = _root;
-            for (int index = 0; index < Length; index++)
+            for (int i = 0; i < Length; i++)
             {
                 if (current.Value == value)
                 {
-                    if (index == 0)
+                    if (i == 0)
                     {
-                        RemoveValueInStartInLinkedList();
+                        RemoveValueInStartInList();
                     }
-                    else if (index == Length - 1)
+                    else if (i == Length - 1)
                     {
-                        RemoveValueInEndInLinkedList();
+                        RemoveValueInEndInList();
+                        if (oneElement)
+                        {
+                            index = i;
+                            break;
+                        }
+                        count++;
                         break;
                     }
                     else
                     {
-                        RemoveGivenQuantityOfValuesByIndexInLinkedList(index);                        
+                        RemoveGivenQuantityOfValuesByIndexInList(i);                        
                     }
 
-                    if (allOrOne)
+                    if (oneElement)
                     {
-                        if (Length > 0)
-                        {
-                            index--;
-                            continue;
-                        }
+                        index = i;
+                        break;
                     }
-                    break;
+                    i--;
+                    count++;
                 }
                 current = current.LinkNext;
             }
+            if (oneElement)
+            {
+                return index;
+            }
+            return count;
         }
 
         private bool NeedToDelete()
@@ -432,7 +443,7 @@ namespace List
                 
 
         // 24. Добавление списка в конец
-        public void AddNewListToEndLinkedList(LinkedList addArray)
+        public void AddNewListToEndList(int[] addArray)
         {
             LinkedList copyList = CopyLinkedList(addArray);
             if (Length != 0 && addArray.Length != 0)
@@ -452,7 +463,7 @@ namespace List
         }
 
         // 25. Добавление списка в начало
-        public void AddNewListToBeginLinkedList(LinkedList addArray)
+        public void AddNewListToBeginList(int[] addArray)
         {
             LinkedList copyList = CopyLinkedList(addArray);
             if (Length != 0 && addArray.Length != 0)
@@ -472,7 +483,7 @@ namespace List
         }
 
         // 26. Добавление списка по индексу
-        public void AddNewListByIndexInLinkedList(LinkedList addArray, int index)
+        public void AddNewListByIndexInList(int index, int[] addArray)
         {
             CheckExceptionIndex(index);
 
@@ -480,11 +491,11 @@ namespace List
             {
                 if (index == 0)
                 {
-                    AddNewListToBeginLinkedList(addArray);
+                    AddNewListToBeginList(addArray);
                 }
                 else
                 {
-                    AddNewListToEndLinkedList(addArray);
+                    AddNewListToEndList(addArray);
                 }
                 return;
             }
@@ -507,16 +518,16 @@ namespace List
             Length += copyList.Length;
         }
 
-        public LinkedList CopyLinkedList(LinkedList list)
+        public LinkedList CopyLinkedList(int[] list)
         {
             LinkedList newList = new LinkedList();
             if (list.Length != 0)
             {
-                Link current;
-                current = list._root;
+                LinkedList tmp = new LinkedList(list);
+                Link current = tmp._root;
                 for (int i = 0; i < list.Length; i++)
                 {
-                    newList.AddValueLastInLinkedList(current.Value);
+                    newList.AddValueLastInList(current.Value);
                     current = current.LinkNext;
                 }
             }

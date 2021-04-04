@@ -2,7 +2,7 @@
 
 namespace List
 {
-    public class ArrayList
+    public class ArrayList : IList
     {
         public int Length { set; private get; }
         private int[] _list;

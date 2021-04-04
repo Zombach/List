@@ -1,46 +1,99 @@
-using NUnit.Framework;
+п»їusing NUnit.Framework;
 using List;
 using System;
+using System.CodeDom;
+using Microsoft.CSharp;
 
 namespace ListTests
 {
-    public class ArrayListTests
+    [TestFixture("ArrayList")]
+    [TestFixture("LinkedList")]
+    //[TestFixture("DoubleLinkedList")]
+    public class ListTest
     {
+        IList actual;
+        IList expected;
+        string type = "";
+
+        public ListTest(string name)
+        {
+            type = name;
+        }
+
+        public void SetupTwoMassive(int[] actualArray, int[] expectedArray)
+        {
+            switch (type)
+            {
+                case "ArrayList":
+                    actual = new ArrayList(actualArray);
+                    expected = new ArrayList(expectedArray);
+                    break;
+                case "LinkedList":
+                    actual = new LinkedList(actualArray);
+                    expected = new LinkedList(expectedArray);
+                    break;
+                //case "DoubleLinkedList":
+                //    actual = new DoubleLink(actualArray);
+                //    expected = new DoubleLink(expectedArray);
+                //    break;
+            }
+        }
+
+        public IList SetupOneMassive(int[] actualArray)
+        {
+            switch (type)
+            {
+                case "ArrayList":
+                    actual = new ArrayList(actualArray);
+                    break;
+                case "LinkedList":
+                    actual = new LinkedList(actualArray);
+                    break;
+                    //case "DoubleLinkedList":
+                    //    actual = new DoubleLink(actualArray);
+                    //    expected = new DoubleLink(expectedArray);
+                    //    break;
+            }
+            return actual;
+        }
+
+
+
         #region Tests
         [TestCase(9, new int[] { 5, 6, 6, 1 }, new int[] { 5, 6, 6, 1, 9 })]
         [TestCase(68, new int[] { }, new int[] { 68 })]
         [TestCase(-5, new int[] { 5 }, new int[] { 5, -5 })]
-        // 1. Добавление значения в конец
+        // 1. Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РєРѕРЅРµС†
         public void AddValueLastInList_Tests(int value, int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.AddValueLastInList(value);
 
             Assert.AreEqual(expected, actual);
-        }
+        }        
 
         [TestCase(9, new int[] { 5, 6, 6, 1 }, new int[] { 9, 5, 6, 6, 1 })]
         [TestCase(68, new int[] { }, new int[] { 68 })]
         [TestCase(-5, new int[] { 5 }, new int[] { -5, 5 })]
-        // 2. Добавление значения в начало
+        // 2. Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РЅР°С‡Р°Р»Рѕ
         public void AddValueByFirstInList_Tests(int value, int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.AddValueByFirstInList(value);
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestCase(9, new int[] { 5, 6, 6, 1 }, new int[] { 5, 9, 6, 6, 1 }, 1)]
-        [TestCase(68, new int[] { }, new int[] { 68 })]
-        [TestCase(-5, new int[] { 5 }, new int[] { -5, 5 })]
-        // 3. Добавление значения по индексу
-        public void AddValueByIndexInList_Tests(int value, int[] actualArray, int[] expectedArray, int index = 0)
+        [TestCase(68, new int[] { }, new int[] { 68 }, 0)]
+        [TestCase(-5, new int[] { 5 }, new int[] { -5, 5 }, 0)]
+        // 3. Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РїРѕ РёРЅРґРµРєСЃСѓ
+        public void AddValueByIndexInList_Tests(int value, int[] actualArray, int[] expectedArray, int index)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.AddValueByIndexInList(index, value);
 
             Assert.AreEqual(expected, actual);
@@ -49,11 +102,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 6, 1 }, new int[] { 5, 6, 6, })]
         [TestCase(new int[] { 1 }, new int[] { })]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 5, 9 })]
-        // 4. Удаление из конца одного элемента
+        // 4. РЈРґР°Р»РµРЅРёРµ РёР· РєРѕРЅС†Р° РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
         public void RemoveValueInEndInList_Tests(int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveValueInEndInList();
 
             Assert.AreEqual(expected, actual);
@@ -62,11 +115,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 6, 1 }, new int[] { 6, 6, 1 })]
         [TestCase(new int[] { 1 }, new int[] { })]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 9, 0 })]
-        // 5. Удаление из начала одного элемента
+        // 5. РЈРґР°Р»РµРЅРёРµ РёР· РЅР°С‡Р°Р»Р° РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
         public void RemoveValueInStartInList_Tests(int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveValueInStartInList();
 
             Assert.AreEqual(expected, actual);
@@ -75,11 +128,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, new int[] { 5, 6, 7 }, 3)]
         [TestCase(new int[] { 1 }, new int[] { })]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 5, 0 }, 1)]
-        // 6. Удаление по индексу одного элемента
+        // 6. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
         public void RemoveValueByIndexInList_Tests(int[] actualArray, int[] expectedArray, int index = 0)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveValueByIndexInList(index);
 
             Assert.AreEqual(expected, actual);
@@ -88,11 +141,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, new int[] { 5, 6 }, 2)]
         [TestCase(new int[] { 1 }, new int[] { }, 1)]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 5, 9, 0 })]
-        //7. Удаление из конца N элементов
+        //7. РЈРґР°Р»РµРЅРёРµ РёР· РєРѕРЅС†Р° N СЌР»РµРјРµРЅС‚РѕРІ
         public void RemoveGivenQuantityOfValuesTheEndByList_Tests(int[] actualArray, int[] expectedArray, int count = 0)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveGivenQuantityOfValuesTheEndByList(count);
 
             Assert.AreEqual(expected, actual);
@@ -101,11 +154,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, new int[] { 7, 1 }, 2)]
         [TestCase(new int[] { 1 }, new int[] { }, 1)]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 5, 9, 0 })]
-        // 8. Удаление из начала N элементов
+        // 8. РЈРґР°Р»РµРЅРёРµ РёР· РЅР°С‡Р°Р»Р° N СЌР»РµРјРµРЅС‚РѕРІ
         public void RemoveGivenQuantityOfValuesTheStartByList_Tests(int[] actualArray, int[] expectedArray, int count = 0)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveGivenQuantityOfValuesTheStartByList(count);
 
             Assert.AreEqual(expected, actual);
@@ -114,11 +167,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, new int[] { 5, 6 }, 2, 2)]
         [TestCase(new int[] { 1 }, new int[] { }, 0, 1)]
         [TestCase(new int[] { 5, 9, 0 }, new int[] { 5, 9, 0 })]
-        // 9. Удаление по индексу N элементов
+        // 9. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ N СЌР»РµРјРµРЅС‚РѕРІ
         public void RemoveGivenQuantityOfValuesByIndexInList_Tests(int[] actualArray, int[] expectedArray, int index = 0, int count = 0)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.RemoveGivenQuantityOfValuesByIndexInList(index, count);
 
             Assert.AreEqual(expected, actual);
@@ -127,11 +180,10 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, 1, 3)]
         [TestCase(new int[] { 1 }, 1, 0)]
         [TestCase(new int[] { 9, 9, 5, 0 }, 5, 2)]
-        // 12. Первый индекс по значению
-        public void GetFirstIndexByValueTests(int[] actualArray, int value, int expectedArray)
+        // 12. РџРµСЂРІС‹Р№ РёРЅРґРµРєСЃ РїРѕ Р·РЅР°С‡РµРЅРёСЋ
+        public void GetFirstIndexByValueTests(int[] actualArray, int value, int expected)
         {
-            int expected = expectedArray;
-            ArrayList list = new ArrayList(actualArray);
+            IList list = SetupOneMassive(actualArray);
             int actual = list.GetFirstIndexByValue(value);
 
             Assert.AreEqual(expected, actual);
@@ -140,11 +192,11 @@ namespace ListTests
         [TestCase(new int[] { 5, 6, 7, 1 }, 1, 3, new int[] { 5, 3, 7, 1 })]
         [TestCase(new int[] { 1 }, 0, 5, new int[] { 5 })]
         [TestCase(new int[] { 9, 9, 5, 0 }, 2, 2, new int[] { 9, 9, 2, 0 })]
-        // 13. Изменение по индексу
+        // 13. РР·РјРµРЅРµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ
         public void ChangeValueByIndexTests(int[] actualArray, int index, int value, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.ChangeValueByIndex(index, value);
 
             Assert.AreEqual(expected, actual);
@@ -153,11 +205,11 @@ namespace ListTests
         [TestCase(new int[] { 6, 7, 1 }, new int[] { 1, 7, 6 })]
         [TestCase(new int[] { 1 }, new int[] { 1 })]
         [TestCase(new int[] { 9, 9, 5, 0 }, new int[] { 0, 5, 9, 9 })]
-        // 14. Реверс (123 -> 321)
+        // 14. Р РµРІРµСЂСЃ (123 -> 321)
         public void ReversList_Tests(int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.ReversList();
 
             Assert.AreEqual(expected, actual);
@@ -167,11 +219,10 @@ namespace ListTests
         [TestCase(new int[] { 1 }, 1)]
         [TestCase(new int[] { 9, 9, 5, 0 }, 9)]
         [TestCase(new int[] { -9, -29, -5, 0 }, 0)]
-        // 15. Поиск значения максимального элемента
-        public void FindMaxValueByList_Tests(int[] actualArray, int expectedArray)
+        // 15. РџРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+        public void FindMaxValueByList_Tests(int[] actualArray, int expected)
         {
-            int expected = expectedArray;
-            ArrayList list = new ArrayList(actualArray);
+            IList list = SetupOneMassive(actualArray);
             int actual = list.FindMaxValueByList();
 
             Assert.AreEqual(expected, actual);
@@ -181,11 +232,10 @@ namespace ListTests
         [TestCase(new int[] { 1 }, 1)]
         [TestCase(new int[] { 9, 9, 5, 0 }, 0)]
         [TestCase(new int[] { -9, -29, -5, 0 }, -29)]
-        // 16. Поиск значения минимального элемента
-        public void FindMinValueByList_Tests(int[] actualArray, int expectedArray)
+        // 16. РџРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+        public void FindMinValueByList_Tests(int[] actualArray, int expected)
         {
-            int expected = expectedArray;
-            ArrayList list = new ArrayList(actualArray);
+            IList list = SetupOneMassive(actualArray);
             int actual = list.FindMinValueByList();
 
             Assert.AreEqual(expected, actual);
@@ -195,11 +245,10 @@ namespace ListTests
         [TestCase(new int[] { 1 }, 0)]
         [TestCase(new int[] { 9, 9, 5, 0 }, 0)]
         [TestCase(new int[] { -9, -29, -5, 0 }, 3)]
-        // 17. Поиск индекс максимального элемента
-        public void FindIndexMaxValueByList_Tests(int[] actualArray, int expectedArray)
+        // 17. РџРѕРёСЃРє РёРЅРґРµРєСЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+        public void FindIndexMaxValueByList_Tests(int[] actualArray, int expected)
         {
-            int expected = expectedArray;
-            ArrayList list = new ArrayList(actualArray);
+            IList list = SetupOneMassive(actualArray);
             int actual = list.FindIndexMaxValueByList();
 
             Assert.AreEqual(expected, actual);
@@ -209,11 +258,10 @@ namespace ListTests
         [TestCase(new int[] { 1 }, 0)]
         [TestCase(new int[] { 9, 9, 5, 0 }, 3)]
         [TestCase(new int[] { -9, -29, -5, 0 }, 1)]
-        // 18. Поиск индекс минимального элемента
-        public void FindIndexMinValueByList_Tests(int[] actualArray, int expectedArray)
+        // 18. РџРѕРёСЃРє РёРЅРґРµРєСЃ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+        public void FindIndexMinValueByList_Tests(int[] actualArray, int expected)
         {
-            int expected = expectedArray;
-            ArrayList list = new ArrayList(actualArray);
+            IList list = SetupOneMassive(actualArray);
             int actual = list.FindIndexMinValueByList();
 
             Assert.AreEqual(expected, actual);
@@ -223,11 +271,11 @@ namespace ListTests
         [TestCase(new int[] { 1 }, new int[] { 1 })]
         [TestCase(new int[] { 9, 9, 5, 0 }, new int[] { 0, 5, 9, 9 })]
         [TestCase(new int[] { -9, -29, -5, 0 }, new int[] { -29, -9, -5, 0 })]
-        // 19. Сортировка по возрастанию
+        // 19. РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
         public void SortAscendingTests(int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.SortAscending();
 
             Assert.AreEqual(expected, actual);
@@ -237,38 +285,37 @@ namespace ListTests
         [TestCase(new int[] { 1 }, new int[] { 1 })]
         [TestCase(new int[] { 9, 9, 5, 0 }, new int[] { 9, 9, 5, 0 })]
         [TestCase(new int[] { -9, -29, -5, 0 }, new int[] { 0, -5, -9, -29 })]
-        // 20. Сортировка по убыванию
+        // 20. РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕ СѓР±С‹РІР°РЅРёСЋ
         public void SortDescendingTests(int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
+            SetupTwoMassive(actualArray, expectedArray);
+
             actual.SortDescending();
 
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 7, 1 })]
-        [TestCase(1, new int[] { 1 }, new int[] { })]
-        [TestCase(0, new int[] { 9, 9, 5, 0 }, new int[] { 9, 9, 5 })]
-        // 21. Удаление по значению первого
-        public void RemoveByValueFirstMatchInList_Tests(int value, int[] actualArray, int[] expectedArray)
+        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, 0)]
+        [TestCase(1, new int[] { 1 }, 0)]
+        [TestCase(0, new int[] { 9, 9, 5, 0 }, 3)]
+        // 21. РЈРґР°Р»РµРЅРёРµ РїРѕ Р·РЅР°С‡РµРЅРёСЋ РїРµСЂРІРѕРіРѕ
+        public void RemoveByValueFirstMatchInList_Tests(int value, int[] actualArray, int expected)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
-            actual.RemoveByValueFirstMatchInList(value);
+            IList list = SetupOneMassive(actualArray);
+            int actual = list.RemoveByValueFirstMatchInList(value);
 
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 1 })]
-        [TestCase(1, new int[] { 1 }, new int[] { })]
-        [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, new int[] { 5, 0 })]
-        // 22. Удаление по значению всех(?вернуть кол-во)
-        public void RemoveByValueAllMatchInList_Tests(int value, int[] actualArray, int[] expectedArray)
+        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, 2)]
+        [TestCase(1, new int[] { 1 }, 1)]
+        [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, 7)]
+        // 22. РЈРґР°Р»РµРЅРёРµ РїРѕ Р·РЅР°С‡РµРЅРёСЋ РІСЃРµС…(?РІРµСЂРЅСѓС‚СЊ РєРѕР»-РІРѕ)
+        public void RemoveByValueAllMatchInList_Tests(int value, int[] actualArray, int expected)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
-            actual.RemoveByValueAllMatchInList(value);
+            IList list = SetupOneMassive(actualArray);
+
+            int actual = list.RemoveByValueAllMatchInList(value);
 
             Assert.AreEqual(expected, actual);
         }
@@ -276,11 +323,11 @@ namespace ListTests
         [TestCase(new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 7, 3, 6, 7, 1, 3, 6, 1 })]
         [TestCase(new int[] { }, new int[] { 3, 6, 1 }, new int[] { 3, 6, 1 })]
         [TestCase(new int[] { 7, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 7, 7, 1, 3, 6, 1, })]
-        // 24. Добавление списка в конец
-        public void AddNewListToEndList_Tests(int[] _list, int[] actualArray, int[] expectedArray)
+        // 24. Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РІ РєРѕРЅРµС†
+        public void AddNewListToEndList_Tests(int[] list, int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(_list);
+            SetupTwoMassive(list, expectedArray);
+
             actual.AddNewListToEndList(actualArray);
 
             Assert.AreEqual(expected, actual);
@@ -289,11 +336,11 @@ namespace ListTests
         [TestCase(new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 3, 6, 1, 7, 3, 6, 7, 1 })]
         [TestCase(new int[] { }, new int[] { 3, 6, 1 }, new int[] { 3, 6, 1 })]
         [TestCase(new int[] { 7, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 3, 6, 1, 7, 7, 1 })]
-        // 25. Добавление списка в начало
-        public void AddNewListToBeginList_Tests(int[] _list, int[] actualArray, int[] expectedArray)
+        // 25. Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РІ РЅР°С‡Р°Р»Рѕ
+        public void AddNewListToBeginList_Tests(int[] list, int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(_list);
+            SetupTwoMassive(list, expectedArray);
+
             actual.AddNewListToBeginList(actualArray);
 
             Assert.AreEqual(expected, actual);
@@ -302,11 +349,10 @@ namespace ListTests
         [TestCase(3, new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 7, 3, 6, 3, 6, 1, 7, 1 })]
         [TestCase(0, new int[] { }, new int[] { 3, 6, 1 }, new int[] { 3, 6, 1 })]
         [TestCase(1, new int[] { 7, 7, 1 }, new int[] { 3, 6, 1 }, new int[] { 7, 3, 6, 1, 7, 1 })]
-        // 26. Добавление списка по индексу
-        public void AddNewListByIndexInList_Tests(int index, int[] _list, int[] actualArray, int[] expectedArray)
+        // 26. Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РїРѕ РёРЅРґРµРєСЃСѓ
+        public void AddNewListByIndexInList_Tests(int index, int[] list, int[] actualArray, int[] expectedArray)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(_list);
+            SetupTwoMassive(list, expectedArray);
             actual.AddNewListByIndexInList(index, actualArray);
 
             Assert.AreEqual(expected, actual);
@@ -315,100 +361,101 @@ namespace ListTests
 
         #region NegativeTest
 
-        // 3. Добавление значения по индексу
-        [TestCase(new int[] { 0, 4, -1, 5 }, 4, -1)]
+        // 3. Р”РѕР±Р°РІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РїРѕ РёРЅРґРµРєСЃСѓ
+        [TestCase(new int[] { 0, 4, -1, 5 }, 5, -1)]
         [TestCase(new int[] { 1 }, -2, 2)]
         public void AddValueByIndexInList_ExceptionTests(int[] array, int value, int index)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<IndexOutOfRangeException>(() => actual.AddValueByIndexInList(index, value));
         }
 
-        // 6. Удаление по индексу одного элемента
+        // 6. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
         [TestCase(new int[] { 0, 4, -1, 5 }, -1)]
         [TestCase(new int[] { 1 }, 2)]
         public void RemoveValueByIndexInList_ExceptionTests(int[] array, int index)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<IndexOutOfRangeException>(() => actual.RemoveValueByIndexInList(index));
         }
 
-        //7. Удаление из конца N элементов
+        //7. РЈРґР°Р»РµРЅРёРµ РёР· РєРѕРЅС†Р° N СЌР»РµРјРµРЅС‚РѕРІ
         [TestCase(new int[] { 0, 4, -1, 5 }, -4)]
         [TestCase(new int[] { 1 }, -2)]
         public void RemoveGivenQuantityOfValuesTheEndByList_ExceptionTests(int[] array, int count)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<ArgumentException>(() => actual.RemoveGivenQuantityOfValuesTheEndByList(count));
         }
 
-        // 8. Удаление из начала N элементов
+        // 8. РЈРґР°Р»РµРЅРёРµ РёР· РЅР°С‡Р°Р»Р° N СЌР»РµРјРµРЅС‚РѕРІ
         [TestCase(new int[] { 0, 4, -1, 5 }, -1)]
-        [TestCase(new int[] {  }, -2)]
+        [TestCase(new int[] { }, -2)]
         public void RemoveGivenQuantityOfValuesTheStartByList_ExceptionTests(int[] array, int count)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<ArgumentException>(() => actual.RemoveGivenQuantityOfValuesTheStartByList(count));
         }
 
-        // 9. Удаление по индексу N элементов
+        // 9. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ N СЌР»РµРјРµРЅС‚РѕРІ
         [TestCase(new int[] { 0, 4, -1, 5 }, 99)]
         [TestCase(new int[] { 1 }, -2)]
         public void RemoveGivenQuantityOfValuesByIndexInList_ExceptionTests_Index(int[] array, int index)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<IndexOutOfRangeException>(() => actual.RemoveGivenQuantityOfValuesByIndexInList(index));
         }
-        // 9. Удаление по индексу N элементов
+        // 9. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ N СЌР»РµРјРµРЅС‚РѕРІ
         [TestCase(new int[] { 0, 4, -1, 5 }, 4, -1)]
         [TestCase(new int[] { 1 }, 1, -2)]
         public void RemoveGivenQuantityOfValuesByIndexInList_ExceptionTests_Remove(int[] array, int index, int count)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<ArgumentException>(() => actual.RemoveGivenQuantityOfValuesByIndexInList(index, count));
         }
-        // 9. Удаление по индексу N элементов
+        // 9. РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ N СЌР»РµРјРµРЅС‚РѕРІ
         [TestCase(2, 9)]
         public void RemoveGivenQuantityOfValuesByIndexInList_ExceptionTests_ByZero(int index, int count)
         {
-            ArrayList actual = null;
+            actual = null;
             Assert.Throws<NullReferenceException>(() => actual.RemoveGivenQuantityOfValuesByIndexInList(index, count));
         }
 
-        // 13. Изменение по индексу
+        // 13. РР·РјРµРЅРµРЅРёРµ РїРѕ РёРЅРґРµРєСЃСѓ
         [TestCase(new int[] { 0, 4, -1, 5 }, 4, -1)]
         [TestCase(new int[] { 1 }, -2, 2)]
-        public void ChangeValueByIndex_ExceptionTests(int[] array, int value, int index)
+        public void ChangeValueByIndex_ExceptionTests(int[] array, int index, int value)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<IndexOutOfRangeException>(() => actual.ChangeValueByIndex(index, value));
         }
 
-        // 17. Поиск индекс максимального элемента     
-        [TestCase(new int[] {  })]
+        // 17. РџРѕРёСЃРє РёРЅРґРµРєСЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°     
+        [TestCase(new int[] { })]
         public void FindIndexMaxValueByList_ExceptionTests(int[] array)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<NullReferenceException>(() => actual.FindIndexMaxValueByList());
         }
 
-        // 18. Поиск индекс минимального элемента        
+        // 18. РџРѕРёСЃРє РёРЅРґРµРєСЃ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°        
         [TestCase(new int[] { })]
         public void FindIndexMinValueByList_ExceptionTests(int[] array)
         {
-            ArrayList actual = new ArrayList(array);
+            IList actual = SetupOneMassive(array);
             Assert.Throws<NullReferenceException>(() => actual.FindIndexMinValueByList());
         }
 
-        // 26. Добавление списка по индексу        
+        // 26. Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РїРѕ РёРЅРґРµРєСЃСѓ        
         [TestCase(new int[] { 0, 4, -1, 5 }, new int[] { 79, 8 }, -11)]
         [TestCase(new int[] { 1 }, new int[] { 1 }, 99)]
         public void AddNewListByIndexInList_ExceptionTests(int[] array, int[] actualArray, int index)
         {
-            ArrayList actual = new ArrayList(array);
-            ArrayList addArray = new ArrayList(actualArray);
+            IList actual = SetupOneMassive(array);
+            IList addArray = SetupOneMassive(actualArray);
             Assert.Throws<IndexOutOfRangeException>(() => actual.AddNewListByIndexInList(index, actualArray));
         }
         #endregion
+
     }
 }
