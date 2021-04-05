@@ -11,12 +11,12 @@ namespace List
         {
             get
             {
-                CheckExceptionIndex(index);
+                Exceptions.CheckExceptionIndex(index, Length);
                 return _list[index];
             }
             set
             {
-                CheckExceptionIndex(index);
+                Exceptions.CheckExceptionIndex(index, Length);
                 _list[index] = value;
             }
         }
@@ -58,7 +58,7 @@ namespace List
         // 3. Добавление значения по индексу
         public void AddValueByIndexInList(int index, int value )    
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             CheckUpSize();
             for (int i = Length; i > index; i--)
             {
@@ -83,14 +83,14 @@ namespace List
         // 6. Удаление по индексу одного элемента
         public void RemoveValueByIndexInList(int index) 
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             RemoveGivenQuantityOfValuesByIndexInList(index);
         }
 
         //7. Удаление из конца N элементов
         public void RemoveGivenQuantityOfValuesTheEndByList(int count)
         {
-            CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemove(count);
             for (int i = 0; i < count; i++)
             {
                 if (Length == 0)
@@ -104,15 +104,15 @@ namespace List
         // 8. Удаление из начала N элементов
         public void RemoveGivenQuantityOfValuesTheStartByList(int count)    
         {
-            CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemove(count);
             RemoveGivenQuantityOfValuesByIndexInList(0, count);
         }
 
         // 9. Удаление по индексу N элементов
         public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)  
         {
-            CheckExceptionIndex(index);
-            CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionIndex(index, Length);
+            Exceptions.CheckExceptionByCountToRemove(count);
             if (Length != 0)
             {
                 for (int i = index; i < Length - count; i++)
@@ -123,7 +123,7 @@ namespace List
             }
             else
             {
-                CheckExceptionByZeroLength();
+                Exceptions.CheckNullReferenceException(Length);
             }
         }
 
@@ -145,7 +145,7 @@ namespace List
         // 13. Изменение по индексу
         public void ChangeValueByIndex(int index, int value) 
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             _list[index] = value;                  
         }
 
@@ -227,7 +227,7 @@ namespace List
         // 26. Добавление списка по индексу
         public void AddNewListByIndexInList(int index, int[] array)                   
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             CheckUpSize(array.Length);
             int generalLength = Length + array.Length;
             int length = generalLength - array.Length - index;
@@ -277,29 +277,6 @@ namespace List
             throw new NotImplementedException();
         }
 
-        private void CheckExceptionIndex(int index)
-        {
-            if (index > Length || index < 0)
-            {
-                throw new IndexOutOfRangeException("индекс находится за пределами массива");
-            }
-        }
-        private void CheckExceptionByZeroLength()
-        {
-            if (Length <= 0)
-            {
-                throw new NullReferenceException("массив пустой");
-            }
-        }
-
-        private static void CheckExceptionByCountToRemove(int count)
-        {
-            if (count < 0)
-            {
-                throw new ArgumentException("нельзя удалить отрицательное количество элементов");
-            }
-        }
-
         private int RemoveByValueFirstOrAllMatchInList(int value, bool oneElement = false)
         {
             int count = 0;
@@ -343,7 +320,7 @@ namespace List
         }
         private int FindIndexMaxOrMinValueByList(bool maxOrMin = true)
         {
-            CheckExceptionByZeroLength();
+            Exceptions.CheckNullReferenceException(Length);
             int index = 0;
             int tmp = _list[0];
             for (int i = 0; i < Length; i++)

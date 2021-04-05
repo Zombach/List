@@ -104,7 +104,7 @@ namespace List
         // 3. Добавление значения по индексу
         public void AddValueByIndexInList(int value, int index)
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             if (NodeBegin(value, index) || NodeLast(value, index))
             {
                 return;
@@ -311,7 +311,7 @@ namespace List
 
         private int FindIndexMaxOrMinValueByDoubleLinkedList(bool maxOrMin = true, bool value = false)
         {
-            CheckNullReferenceException();
+            Exceptions.CheckNullReferenceException(Length);
             DoubleLink current = _root;
             int tmpValue = _root.Value;
             int index = 0;
@@ -482,7 +482,7 @@ namespace List
         // 26. Добавление списка по индексу
         public void AddNewListByIndexInList(DoubleLinkedList addArray, int index)
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index,Length);
 
             if (index == 0 || index == Length)
             {
@@ -593,29 +593,12 @@ namespace List
         public override int GetHashCode()
         {
             throw new NotImplementedException();
-        }
-
-
-        public void CheckExceptionIndex(int index)
-        {
-            if (index < 0 || index > Length)
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
-
-        public void CheckNullReferenceException()
-        {
-            if (Length == 0)
-            {
-                throw new NullReferenceException();
-            }
-        }
+        }       
 
 
         public DoubleLink GetNodeByIndex(int index)
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             DoubleLink current = _root;
             if (index == Length - 1)
             {

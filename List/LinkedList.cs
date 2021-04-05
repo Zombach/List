@@ -94,7 +94,7 @@ namespace List
         // 3. Добавление значения по индексу
         public void AddValueByIndexInList(int index, int value)
         {
-            CheckExceptionIndex(index);            
+            Exceptions.CheckExceptionIndex(index, Length);            
             if (NodeBegin(value, index) || NodeLast(value, index))
             {
                 return;
@@ -151,6 +151,7 @@ namespace List
         // 7. Удаление из конца N элементов
         public void RemoveGivenQuantityOfValuesTheEndByList(int qty = 1)
         {
+            Exceptions.CheckExceptionByCountToRemove(qty);
             Link current = _root;
             int count = Length - 1 - qty;
             if (Length != 0)
@@ -175,11 +176,12 @@ namespace List
         }
 
         // 8. Удаление из начала N элементов
-        public void RemoveGivenQuantityOfValuesTheStartByList(int qty = 1)
+        public void RemoveGivenQuantityOfValuesTheStartByList(int count = 1)
         {
+            Exceptions.CheckExceptionByCountToRemove(count);
             if (Length != 0)
             {
-                for (int i = 0; i < qty; i++)
+                for (int i = 0; i < count; i++)
                 {
                     if (Length > 1) _root = _root.LinkNext;
                     else
@@ -194,17 +196,18 @@ namespace List
             }
             else
             {
-                return; // ошибку?
+                Exceptions.CheckNullReferenceException(Length);
             }
         }            
 
         // 9. Удаление по индексу N элементов
-        public void RemoveGivenQuantityOfValuesByIndexInList(int index, int qty = 1)
+        public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)
         {
-            Link current = _root;
+            Exceptions.CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionIndex(index, Length);
             if (index == 0)
             {
-                RemoveGivenQuantityOfValuesTheStartByList(qty);
+                RemoveGivenQuantityOfValuesTheStartByList(count);
             }
             else if (index == Length - 1)
             {
@@ -212,12 +215,13 @@ namespace List
             }
             else
             {
-                current = GetNodeByIndex(index - 1);
-                Link currentNext = GetNodeByIndex(index + qty);
-                if (index + qty >= Length - 1)
+                Link current = GetNodeByIndex(index - 1);
+                if (index + count < Length)
                 {
+                    Link currentNext = GetNodeByIndex(index + count);
                     current.LinkNext = currentNext;
-                    Length -= qty;
+                    Length -= count;
+
                 }
                 else
                 {
@@ -248,7 +252,7 @@ namespace List
         // 13. Изменение по индексу
         public void ChangeValueByIndex(int index, int value)
         {
-            CheckExceptionIndex(index + 1);
+            Exceptions.CheckExceptionIndex(index + 1, Length);
             Link current = _root;
             for (int i = 0; i < Length; i++)
             {
@@ -306,7 +310,7 @@ namespace List
 
         private int FindIndexMaxOrMinValueByList(bool maxOrMin = true, bool value = false)
         {
-            CheckNullReferenceException();
+            Exceptions.CheckNullReferenceException(Length);
             Link current = _root;
             int tmpValue = _root.Value;
             int index = 0;
@@ -485,7 +489,7 @@ namespace List
         // 26. Добавление списка по индексу
         public void AddNewListByIndexInList(int index, int[] addArray)
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
 
             if (index == 0 || index == Length)
             {
@@ -597,28 +601,9 @@ namespace List
         {
             throw new NotImplementedException();
         }
-
-
-        public void CheckExceptionIndex(int index)
-        {
-            if (index < 0 || index > Length)
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
-
-        public void CheckNullReferenceException()
-        {
-            if (Length == 0)
-            {
-                throw new NullReferenceException();
-            }
-        }
-        
-
         public Link GetNodeByIndex(int index)
         {
-            CheckExceptionIndex(index);
+            Exceptions.CheckExceptionIndex(index, Length);
             Link current = _root;
             if (index == Length - 1)
             {
