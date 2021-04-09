@@ -382,6 +382,8 @@ namespace ListTests
         //7. Удаление из конца N элементов
         [TestCase(new int[] { 0, 4, -1, 5 }, -4)]
         [TestCase(new int[] { 1 }, -2)]
+        [TestCase(new int[] { 4, 5, 6, 1 }, 20)]
+        [TestCase(new int[] { 1, 5, 6 }, 99)]
         public void RemoveGivenQuantityOfValuesTheEndByList_ExceptionTests(int[] array, int count)
         {
             IList actual = SetupOneMassive(array);
@@ -391,6 +393,8 @@ namespace ListTests
         // 8. Удаление из начала N элементов
         [TestCase(new int[] { 0, 4, -1, 5 }, -1)]
         [TestCase(new int[] { }, -2)]
+        [TestCase(new int[] { 4, 5, 6, 1 }, 20)]
+        [TestCase(new int[] { 1, 5, 6 }, 99)]
         public void RemoveGivenQuantityOfValuesTheStartByList_ExceptionTests(int[] array, int count)
         {
             IList actual = SetupOneMassive(array);
@@ -400,6 +404,8 @@ namespace ListTests
         // 9. Удаление по индексу N элементов
         [TestCase(new int[] { 0, 4, -1, 5 }, 99)]
         [TestCase(new int[] { 1 }, -2)]
+        [TestCase(new int[] { 4, 5, 6, 1 }, 20)]
+        [TestCase(new int[] { 1, 5, 6 }, 99)]
         public void RemoveGivenQuantityOfValuesByIndexInList_ExceptionTests_Index(int[] array, int index)
         {
             IList actual = SetupOneMassive(array);

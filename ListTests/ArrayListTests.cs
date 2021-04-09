@@ -341,6 +341,17 @@ namespace ListTests
             Assert.Throws<ArgumentException>(() => actual.RemoveGivenQuantityOfValuesTheEndByList(count));
         }
 
+        //7. Удаление из конца N элементов
+        [TestCase(new int[] { }, 22)]
+        [TestCase(new int[] { 4, 5, 6, 1, 6 }, 92)]
+
+        public void RemoveGivenQuantityOfValuesTheEndByList_ExceptionTests2(int[] array, int count)
+        {
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<ArgumentException>(() => actual.RemoveGivenQuantityOfValuesTheEndByList(count));
+        }
+        
+
         // 8. Удаление из начала N элементов
         [TestCase(new int[] { 0, 4, -1, 5 }, -1)]
         [TestCase(new int[] {  }, -2)]

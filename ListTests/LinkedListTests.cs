@@ -44,7 +44,6 @@ namespace ListTests
         // 4. Удаление из конца одного элемента
         [TestCase(new int[] { 0, 4, -1, 5 }, new int[] { 0, 4, -1 })]
         [TestCase(new int[] { 5 }, new int[] { })]
-        [TestCase(new int[] { }, new int[] { })]
         [TestCase(new int[] { 5, 1, -10 }, new int[] { 5, 1 })]
         public void RemoveValueInEndInLinkedListTests(int[] list, int[] expectedArray)
         {
