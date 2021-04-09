@@ -260,15 +260,14 @@ namespace ListTests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, new int[] { 3, 6, 1 })]
-        [TestCase(1, new int[] { 1 }, new int[] { })]
-        [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, new int[] { 5, 0 })]
+        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, 2)]
+        [TestCase(1, new int[] { 1 }, 1)]
+        [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, 7)]
         // 22. Удаление по значению всех(?вернуть кол-во)
-        public void RemoveByValueAllMatchInList_Tests(int value, int[] actualArray, int[] expectedArray)
+        public void RemoveByValueAllMatchInList_Tests(int value, int[] actualArray, int expected)
         {
-            ArrayList expected = new ArrayList(expectedArray);
-            ArrayList actual = new ArrayList(actualArray);
-            actual.RemoveByValueAllMatchInList(value);
+            ArrayList list = new ArrayList(actualArray);
+            int actual = list.RemoveByValueAllMatchInList(value);
 
             Assert.AreEqual(expected, actual);
         }

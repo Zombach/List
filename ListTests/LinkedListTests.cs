@@ -36,7 +36,7 @@ namespace ListTests
         public void AddValueByIndexInLinkedListTests(int[] list, int value, int index, int[] expectedArray)
         {
             LinkedList actual = new LinkedList(list);
-            actual.AddValueByIndexInList(value, index);
+            actual.AddValueByIndexInList(index, value);
             LinkedList expected = new LinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
@@ -105,8 +105,7 @@ namespace ListTests
         // 9. Удаление по индексу N элементов
         [TestCase(new int[] { 0, 4, 9, 0 }, 1, 1, new int[] { 0, 9, 0 })]
         [TestCase(new int[] { 5 }, 0, 0, new int[] { 5 })]
-        [TestCase(new int[] { }, 0, 0, new int[] { })]
-        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 0, 3, new int[] { 4, 2, 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 0, 3, new int[] { 8, 1, 7 })]
         [TestCase(new int[] { 3, 4, 5, 4, 4, 2, 8, 1, 7 }, 3, 5, new int[] { 3, 4, 5, 7 })]
         public void RemoveGivenQuantityOfValuesByIndexInLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
         {
@@ -250,11 +249,10 @@ namespace ListTests
         [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, 2)]
         [TestCase(1, new int[] { 1 }, 1)]
         [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, 7)]
-        public void RemoveByValueAllMatchInLinkedListTests(int[] list, int value, int[] expectedArray)
+        public void RemoveByValueAllMatchInLinkedListTests(int value, int[] actualArray, int expected)
         {
-            LinkedList actual = new LinkedList(list);
-            actual.RemoveByValueAllMatchInList(value);
-            LinkedList expected = new LinkedList(expectedArray);
+            LinkedList list = new LinkedList(actualArray);
+            int actual = list.RemoveByValueAllMatchInList(value);
             Assert.AreEqual(expected, actual);
         }
 
