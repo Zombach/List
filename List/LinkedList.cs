@@ -128,6 +128,7 @@ namespace List
         public void RemoveGivenQuantityOfValuesTheEndByList(int qty = 1)
         {
             Exceptions.CheckExceptionByCountToRemove(qty);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, qty);
             Link current = _root;
             int count = Length - 1 - qty;
             if (Length != 0)
@@ -141,13 +142,13 @@ namespace List
                     current.LinkNext = null;
                     _tail = current;
                     Length -= qty;
-                }                    
+                }
                 else
                 {
                     _root = null;
                     _tail = null;
                     Length = 0;
-                }
+                }                
             }
         }
 
@@ -155,19 +156,22 @@ namespace List
         public void RemoveGivenQuantityOfValuesTheStartByList(int count = 1)
         {
             Exceptions.CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, count);
             if (Length != 0)
             {
                 for (int i = 0; i < count; i++)
                 {
+                    Length--;
+
                     if (Length > 1) _root = _root.LinkNext;
                     else
                     {
                         _root = null;
                         _tail = null;
-                        Length--;
+                       
                         break;
                     }
-                    Length--;
+
                 }
             }
             else
@@ -180,6 +184,7 @@ namespace List
         public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)
         {
             Exceptions.CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, count);
             Exceptions.CheckExceptionIndex(index, Length);
             if (index == 0)
             {
@@ -360,9 +365,11 @@ namespace List
                         if (oneElement)
                         {
                             index = i;
-                            break;
                         }
-                        count++;
+                        else
+                        {
+                            count++;
+                        }
                         break;
                     }
                     else
@@ -502,8 +509,7 @@ namespace List
             }
             Link currentThis = this._root;
             Link currentList = list._root;
-
-            while (!(currentThis.LinkNext is null))
+            do
             {
                 if (currentThis.Value != currentList.Value)
                 {
@@ -512,10 +518,8 @@ namespace List
                 currentList = currentList.LinkNext;
                 currentThis = currentThis.LinkNext;
             }
-            if (currentThis.Value != currentList.Value)
-            {
-                return false;
-            }
+            while (!(currentThis.LinkNext is null));
+            
             return true;
         }
 

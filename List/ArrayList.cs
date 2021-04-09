@@ -92,6 +92,7 @@ namespace List
         public void RemoveGivenQuantityOfValuesTheEndByList(int count)
         {
             Exceptions.CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, count);
             for (int i = 0; i < count; i++)
             {
                 if (Length == 0)
@@ -106,6 +107,7 @@ namespace List
         public void RemoveGivenQuantityOfValuesTheStartByList(int count)    
         {
             Exceptions.CheckExceptionByCountToRemove(count);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, count);
             RemoveGivenQuantityOfValuesByIndexInList(0, count);
         }
 
@@ -113,6 +115,7 @@ namespace List
         public void RemoveGivenQuantityOfValuesByIndexInList(int index, int count = 1)  
         {
             Exceptions.CheckExceptionIndex(index, Length);
+            Exceptions.CheckExceptionByCountToRemoveInLast(Length, count);
             Exceptions.CheckExceptionByCountToRemove(count);
             if (Length != 0)
             {
