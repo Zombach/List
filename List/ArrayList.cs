@@ -5,6 +5,7 @@ namespace List
     public class ArrayList : IList
     {
         public int Length { set; private get; }
+
         private int[] _list;
 
         public int this[int index]
@@ -186,7 +187,6 @@ namespace List
             int index = FindIndexMaxOrMinValueByList(false);
             return index;
         }
-        
 
         // 19. Сортировка по возрастанию
         public void SortAscending() 

@@ -106,30 +106,6 @@ namespace List
             Length++;
         }
 
-        
-        private bool NodeBegin(int value, int index)
-        {
-            bool check = false;
-            if (index == 0)
-            {
-                AddValueByFirstInList(value);
-                check = true;
-            }
-            return check;
-        }
-
-        private bool NodeLast(int value, int index)
-        {
-            bool check = false;
-            if (index == Length)
-            {
-                AddValueLastInList(value);
-                check = true;
-            }
-            return check;
-        }
-
-
         // 4. Удаление из конца одного элемента
         public void RemoveValueInEndInList()
         {
@@ -350,35 +326,7 @@ namespace List
         {
             SortingList(false);
         }
-        private void SortingList(bool ascendingOrDescending = true)
-        {
-            if (Length == 0) return;
-            Link temp = _tail;
-            for (Link current = _root; temp.LinkNext != _root.LinkNext;)
-            {
-                if (SortAscendingOrDescending(temp, current, ascendingOrDescending))
-                {
-                    int tmp = current.Value;
-                    current.Value = temp.Value;
-                    temp.Value = tmp;
-                }
-                if (current.LinkNext == temp)
-                {
-                    temp = current;
-                    current = _root;
-                    continue;
-                }
-                current = current.LinkNext;
-            }
-        }
-        private bool SortAscendingOrDescending(Link temp, Link current, bool ascendingOrDescending)
-        {
-            if (ascendingOrDescending && temp.Value < current.Value || !ascendingOrDescending && temp.Value > current.Value)
-            {
-                return true;
-            }
-            return false;
-        }
+        
 
         // 21. Удаление по значению первого
         public int RemoveByValueFirstMatchInList(int value)
@@ -437,14 +385,7 @@ namespace List
                 return index;
             }
             return count;
-        }
-
-        private bool NeedToDelete()
-        {
-            if (Length == 0) return false;
-            return true;
-        }
-                
+        }   
 
         // 24. Добавление списка в конец
         public void AddNewListToEndList(int[] addArray)
@@ -522,25 +463,6 @@ namespace List
             Length += copyList.Length;
         }
 
-        public LinkedList CopyLinkedList(int[] list)
-        {
-            LinkedList newList = new LinkedList();
-            if (list.Length != 0)
-            {
-                LinkedList tmp = new LinkedList(list);
-                Link current = tmp._root;
-                for (int i = 0; i < list.Length; i++)
-                {
-                    newList.AddValueLastInList(current.Value);
-                    current = current.LinkNext;
-                }
-            }
-            else
-            {
-                newList = new LinkedList();
-            }
-            return newList;
-        }
 
         public override string ToString()
         {
@@ -601,7 +523,7 @@ namespace List
         {
             throw new NotImplementedException();
         }
-        public Link GetNodeByIndex(int index)
+        private Link GetNodeByIndex(int index)
         {
             Exceptions.CheckExceptionIndex(index, Length);
             Link current = _root;
@@ -617,6 +539,84 @@ namespace List
                 }
             }
             return current;
+        }
+
+        private LinkedList CopyLinkedList(int[] list)
+        {
+            LinkedList newList = new LinkedList();
+            if (list.Length != 0)
+            {
+                LinkedList tmp = new LinkedList(list);
+                Link current = tmp._root;
+                for (int i = 0; i < list.Length; i++)
+                {
+                    newList.AddValueLastInList(current.Value);
+                    current = current.LinkNext;
+                }
+            }
+            else
+            {
+                newList = new LinkedList();
+            }
+            return newList;
+        }
+
+        private bool NeedToDelete()
+            {
+                if (Length == 0) return false;
+                return true;
+            }
+
+        private void SortingList(bool ascendingOrDescending = true)
+        {
+            if (Length == 0) return;
+            Link temp = _tail;
+            for (Link current = _root; temp.LinkNext != _root.LinkNext;)
+            {
+                if (SortAscendingOrDescending(temp, current, ascendingOrDescending))
+                {
+                    int tmp = current.Value;
+                    current.Value = temp.Value;
+                    temp.Value = tmp;
+                }
+                if (current.LinkNext == temp)
+                {
+                    temp = current;
+                    current = _root;
+                    continue;
+                }
+                current = current.LinkNext;
+            }
+        }
+        private bool SortAscendingOrDescending(Link temp, Link current, bool ascendingOrDescending)
+        {
+            if (ascendingOrDescending && temp.Value < current.Value || !ascendingOrDescending && temp.Value > current.Value)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool NodeBegin(int value, int index)
+        {
+            bool check = false;
+            if (index == 0)
+            {
+                AddValueByFirstInList(value);
+                check = true;
+            }
+            return check;
+        }
+
+        private bool NodeLast(int value, int index)
+        {
+            bool check = false;
+            if (index == Length)
+            {
+              AddValueLastInList(value);
+              check = true;
+            }
+            return check;
         }
     }
 }
