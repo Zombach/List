@@ -11,6 +11,10 @@ namespace List
                 throw new IndexOutOfRangeException();
             }
         }
+        public static void CheckNullReferenceException()
+        {
+                throw new NullReferenceException();
+        }
 
         public static void CheckNullReferenceException(int length)
         {
