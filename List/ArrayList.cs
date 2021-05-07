@@ -305,14 +305,14 @@ namespace List
             return count;
         }
 
-        private void SortAscendingOrDescending(bool SignUpOrDown = true)
+        private void SortAscendingOrDescending(bool signUpOrDown = true)
         {
             int tmp;
             for (int i = 0; i < Length - 1; i++)
             {
                 for (int j = i + 1; j < Length; j++)
                 {
-                    if (CheckingSignUpOrDown(_list[j], _list[i], SignUpOrDown))
+                    if (CheckingSignUpOrDown(_list[j], _list[i], signUpOrDown))
                     {
                         tmp = _list[j];
                         _list[j] = _list[i];
@@ -337,10 +337,10 @@ namespace List
             return index;
         }
 
-        private static bool CheckingSignUpOrDown(int tmp, int current, bool SignUpOrDown = true)
+        private static bool CheckingSignUpOrDown(int tmp, int current, bool signUpOrDown = true)
         {
-            if (tmp < current && SignUpOrDown ||
-               tmp > current && !SignUpOrDown)
+            if (tmp < current && signUpOrDown ||
+               tmp > current && !signUpOrDown)
             {
                 return true;
             }

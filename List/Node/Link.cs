@@ -1,4 +1,4 @@
-﻿namespace List
+﻿namespace List.Node
 {
     public class Link
     {

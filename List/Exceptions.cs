@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace List
 {
-    public class Exceptions
+    public static class Exceptions
     {
-        public static void CheckExceptionIndex(int index, int Length)
+        public static void CheckExceptionIndex(int index, int length)
         {
-            if (index < 0 || index > Length)
+            if (index < 0 || index > length)
             {
                 throw new IndexOutOfRangeException();
             }
         }
 
-        public static void CheckNullReferenceException(int Length)
+        public static void CheckNullReferenceException(int length)
         {
-            if (Length <= 0)
+            if (length <= 0)
             {
                 throw new NullReferenceException();
             }
@@ -30,9 +26,9 @@ namespace List
                 throw new ArgumentException("нельзя удалить отрицательное количество элементов");
             }
         }
-        public static void CheckExceptionByCountToRemoveInLast(int Length, int qty)
+        public static void CheckExceptionByCountToRemoveInLast(int length, int qty)
         {
-            if (Length < qty)
+            if (length < qty)
             {
                 throw new ArgumentException("Вы пытаетесь удалить, больше элементов, чем их есть");
             }

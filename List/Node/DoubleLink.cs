@@ -1,4 +1,4 @@
-﻿namespace List
+﻿namespace List.Node
 {
     public class DoubleLink
     {
@@ -8,7 +8,7 @@
 
         public DoubleLink(int value)
         {
-            Value = Value;
+            Value = value;
             LinkNext = null;
             LinkPrevious = null;
         }

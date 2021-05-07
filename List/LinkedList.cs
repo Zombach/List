@@ -1,4 +1,5 @@
 ﻿using System;
+using List.Node;
 
 namespace List
 {
@@ -11,14 +12,8 @@ namespace List
 
         public int this[int index]
         {
-            get
-            {
-                return GetNodeByIndex(index).Value;
-            }
-            set
-            {
-                GetNodeByIndex(index).Value = value;
-            }
+            get => GetNodeByIndex(index).Value;
+            set => GetNodeByIndex(index).Value = value;
         }
 
         // 23.1 3 конструктора (пустой)  
@@ -77,15 +72,15 @@ namespace List
         // 2. Добавление значения в начало
         public void AddValueByFirstInList(int value)
         {
-            Link _new = new Link(value);
+            Link link = new Link(value);
             if (Length != 0)
             {
-                _new.LinkNext = _root;
-                _root = _new;
+                link.LinkNext = _root;
+                _root = link;
             }
             else
             {
-                _root = _new;
+                _root = link;
                 _tail = _root;
             }
             Length++;
@@ -100,9 +95,11 @@ namespace List
                 return;
             }
             Link current = GetNodeByIndex(index - 1);
-            Link _new = new Link(value);
-            _new.LinkNext = current.LinkNext;
-            current.LinkNext = _new;
+            Link link = new Link(value)
+            {
+                LinkNext = current.LinkNext
+            };
+            current.LinkNext = link;
             Length++;
         }
 
@@ -323,7 +320,7 @@ namespace List
         // 19. Сортировка по возрастанию
         public void SortAscending()
         {
-            SortingList(true);
+            SortingList();
         }
 
         // 20. Сортировка по убыванию
