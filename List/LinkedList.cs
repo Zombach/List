@@ -488,6 +488,10 @@ namespace List
         public override bool Equals(object obj)
         {
             LinkedList list = (LinkedList)obj;
+            if (list == null)
+            {
+                return false;
+            }
             if (this.Length != list.Length)
             {
                 return false;
@@ -515,7 +519,7 @@ namespace List
                 currentList = currentList.LinkNext;
                 currentThis = currentThis.LinkNext;
             }
-            while (!(currentThis.LinkNext is null));
+            while (!(currentThis is null));
             
             return true;
         }

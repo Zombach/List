@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using List;
 using NUnit.Framework;
 
-namespace List
+namespace ListTests
 {
     public class IList2
     {

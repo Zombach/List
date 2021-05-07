@@ -250,27 +250,23 @@ namespace List
 
         public override bool Equals(object obj)
         {
-            bool equals = true;
             ArrayList arrayList = (ArrayList)obj;
-            if (arrayList != null)
+            if (arrayList == null)
             {
-                if (this.Length != arrayList.Length)
+                return false;
+            }
+            if (this.Length != arrayList.Length)
+            {
+                return false;
+            }
+            for (int i = 0; i < this.Length; i++)
+            {
+                if (this._list[i] != arrayList._list[i])
                 {
-                    equals = false;
-                }
-                for (int i = 0; i < this.Length; i++)
-                {
-                    if (this._list[i] != arrayList._list[i])
-                    {
-                        equals = false;
-                    }
+                    return false;
                 }
             }
-            else
-            {
-                equals = false;
-            }
-            return equals;
+            return true;
         }
 
         public override string ToString()
