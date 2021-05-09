@@ -9,7 +9,7 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, -1, 5 }, 9, new int[] { 0, 4, -1, 5, 9 })]
         [TestCase(new int[] { }, 5, new int[] { 5 })]
         [TestCase(new int[] { 5, 1, -10 }, 3, new int[] { 5, 1, -10, 3 })]
-        public void AddValueLastInLinkedListTests(int[] list, int value, int[] expectedArray)
+        public void AddValueLastInDoubleLinkedListTests(int[] list, int value, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
             actual.AddValueLastInList(value);
@@ -36,7 +36,7 @@ namespace ListTests
         public void AddValueByIndexInDoubleLinkedListTests(int[] list, int value, int index, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
-            actual.AddValueByIndexInList(value, index);
+            actual.AddValueByIndexInList(index, value);
             DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
@@ -44,7 +44,6 @@ namespace ListTests
         // 4. Удаление из конца одного элемента
         [TestCase(new int[] { 0, 4, -1, 5 }, new int[] { 0, 4, -1 })]
         [TestCase(new int[] { 5 }, new int[] { })]
-        [TestCase(new int[] { }, new int[] { })]
         [TestCase(new int[] { 5, 1, -10 }, new int[] { 5, 1 })]
         public void RemoveValueInEndInDoubleLinkedListTests(int[] list, int[] expectedArray)
         {
@@ -103,9 +102,10 @@ namespace ListTests
         }
 
         // 9. Удаление по индексу N элементов
-        [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 2, 6, new int[] { 0, 4, 5 })]
-        [TestCase(new int[] { 5 }, 0, 1, new int[] { })]
-        [TestCase(new int[] { 5, 1, -10, 5 }, 3, 1, new int[] { 5, 1, -10 })]
+        [TestCase(new int[] { 0, 4, 9, 0 }, 1, 1, new int[] { 0, 9, 0 })]
+        [TestCase(new int[] { 5 }, 0, 0, new int[] { 5 })]
+        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 0, 3, new int[] { 8, 1, 7 })]
+        [TestCase(new int[] { 3, 4, 5, 4, 4, 2, 8, 1, 7 }, 3, 5, new int[] { 3, 4, 5, 7 })]
         public void RemoveGivenQuantityOfValuesByIndexInDoubleLinkedListTests(int[] list, int index, int qty, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
@@ -118,7 +118,7 @@ namespace ListTests
         [TestCase(new int[] { 0, 4, 9, 9, 8, 7, 8, -1, 5 }, 8, 4)]
         [TestCase(new int[] { 5 }, 5, 0)]
         [TestCase(new int[] { 5, 1, -10, 5 }, 1, 1)]
-        public void GetFirstIndexByValueTests(int[] list, int value, int  expected)
+        public void GetFirstIndexByValueTests(int[] list, int value, int expected)
         {
             DoubleLinkedList array = new DoubleLinkedList(list);
             int actual = array.GetFirstIndexByValue(value);
@@ -148,7 +148,7 @@ namespace ListTests
             actual.ReversList();
             DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
-        }    
+        }
 
         // 15. Поиск значения максимального элемента
         [TestCase(new int[] { 0, 4, 9, 0 }, 9)]
@@ -244,21 +244,14 @@ namespace ListTests
             Assert.AreEqual(expected, actual);
         }
 
-        // 22. Удаление по значению первого
-        [TestCase(new int[] { 0, 4, 9, 0 }, 4, new int[] { 0, 9, 0 })]
-        [TestCase(new int[] { 5 }, 3, new int[] { 5 })]
-        [TestCase(new int[] { }, 2, new int[] { })]
-        [TestCase(new int[] { 3, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 1, new int[] { 3, 4, 5, 5, 6, 6, 2, 2, 4, 4, 2, 8, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 3, new int[] { 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 6, new int[] { 3, 4, 5, 1, 5, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 7, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1 })]
-        [TestCase(new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 }, 0, new int[] { 3, 4, 5, 1, 5, 6, 6, 2, 1, 1, 2, 4, 4, 2, 8, 1, 7 })]
-        public void RemoveByValueAllMatchInDoubleLinkedListTests(int[] list, int value, int[] expectedArray)
+        // 22. Удаление всех по значению
+        [TestCase(7, new int[] { 7, 3, 6, 7, 1 }, 2)]
+        [TestCase(1, new int[] { 1 }, 1)]
+        [TestCase(9, new int[] { 9, 9, 9, 9, 9, 9, 9, 5, 0 }, 7)]
+        public void RemoveByValueAllMatchInDoubleLinkedListTests(int value, int[] actualArray, int expected)
         {
-            DoubleLinkedList actual = new DoubleLinkedList(list);
-            actual.RemoveByValueAllMatchInList(value);
-            DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
+            DoubleLinkedList list = new DoubleLinkedList(actualArray);
+            int actual = list.RemoveByValueAllMatchInList(value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -272,8 +265,7 @@ namespace ListTests
         public void AddNewListToEndDoubleLinkedListTests(int[] list, int[] addList, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
-            DoubleLinkedList addArray = new DoubleLinkedList(addList);
-            actual.AddNewListToEndList(addArray);
+            actual.AddNewListToEndList(addList);
             DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
@@ -288,8 +280,7 @@ namespace ListTests
         public void AddNewListToBeginDoubleLinkedListTests(int[] list, int[] addList, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
-            DoubleLinkedList addArray = new DoubleLinkedList(addList);
-            actual.AddNewListToBeginList(addArray);
+            actual.AddNewListToBeginList(addList);
             DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
@@ -305,11 +296,9 @@ namespace ListTests
         public void AddNewListByIndexInDoubleLinkedListTests(int[] list, int[] addList, int index, int[] expectedArray)
         {
             DoubleLinkedList actual = new DoubleLinkedList(list);
-            DoubleLinkedList addArray = new DoubleLinkedList(addList);
-            actual.AddNewListByIndexInList(addArray, index);
+            actual.AddNewListByIndexInList(index, addList);
             DoubleLinkedList expected = new DoubleLinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
-
     }
 }

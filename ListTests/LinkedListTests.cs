@@ -300,6 +300,5 @@ namespace ListTests
             LinkedList expected = new LinkedList(expectedArray);
             Assert.AreEqual(expected, actual);
         }
-
     }
 }

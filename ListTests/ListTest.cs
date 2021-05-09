@@ -1,14 +1,12 @@
-﻿using NUnit.Framework;
-using List;
+﻿using List;
+using NUnit.Framework;
 using System;
-using System.CodeDom;
-using Microsoft.CSharp;
 
 namespace ListTests
 {
     [TestFixture("ArrayList")]
     [TestFixture("LinkedList")]
-    //[TestFixture("DoubleLinkedList")]
+    [TestFixture("DoubleLinkedList")]
     public class ListTest
     {
         IList actual;
@@ -32,10 +30,10 @@ namespace ListTests
                     actual = new LinkedList(actualArray);
                     expected = new LinkedList(expectedArray);
                     break;
-                //case "DoubleLinkedList":
-                //    actual = new DoubleLink(actualArray);
-                //    expected = new DoubleLink(expectedArray);
-                //    break;
+                case "DoubleLinkedList":
+                    actual = new DoubleLinkedList(actualArray);
+                    expected = new DoubleLinkedList(expectedArray);
+                    break;
             }
         }
 
@@ -49,10 +47,9 @@ namespace ListTests
                 case "LinkedList":
                     actual = new LinkedList(actualArray);
                     break;
-                    //case "DoubleLinkedList":
-                    //    actual = new DoubleLink(actualArray);
-                    //    expected = new DoubleLink(expectedArray);
-                    //    break;
+                case "DoubleLinkedList":
+                    actual = new DoubleLinkedList(actualArray);
+                    break;
             }
             return actual;
         }

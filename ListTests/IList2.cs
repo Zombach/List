@@ -12,7 +12,7 @@ namespace ListTests
             var actual = (T)Activator.CreateInstance(typeof(T), actualArray);
             var expected = (T)Activator.CreateInstance(typeof(T), expectedArray);
             actual.AddValueLastInList(value);
-            return Equals(actual, expected);
+            return Equals(expected, actual);
         }
     }
     public class Test

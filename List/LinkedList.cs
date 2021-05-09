@@ -496,7 +496,7 @@ namespace List
             {
                 return false;
             }
-            if (this.Length == 0)
+            if (this.Length == 0 && list.Length == 0)
             {
                 return true;
             }
