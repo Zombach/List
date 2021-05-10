@@ -528,6 +528,7 @@ namespace List
         {
             throw new NotImplementedException();
         }
+
         private Link GetNodeByIndex(int index)
         {
             Exceptions.CheckExceptionIndex(index, Length);

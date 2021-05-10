@@ -54,13 +54,14 @@ namespace List
             }
         }
 
-
         // 1. Добавление значения в конец
         public void AddValueLastInList(int value)
         {
+            DoubleLink newLink = new DoubleLink(value);
             if (Length != 0)
             {
-                _tail.LinkNext = new DoubleLink(value);
+                _tail.LinkNext = newLink;
+                newLink.LinkPrevious = _tail;
                 _tail = _tail.LinkNext;
                 Length++;
             }
@@ -73,15 +74,16 @@ namespace List
         // 2. Добавление значения в начало
         public void AddValueByFirstInList(int value)
         {
-            DoubleLink link = new DoubleLink(value);
+            DoubleLink newLink = new DoubleLink(value);
             if (Length != 0)
             {
-                link.LinkNext = _root;
-                _root = link;
+                newLink.LinkNext = _root;
+                _root.LinkPrevious = newLink;
+                _root = newLink;
             }
             else
             {
-                _root = link;
+                _root = newLink;
                 _tail = _root;
             }
             Length++;
@@ -96,11 +98,12 @@ namespace List
                 return;
             }
             DoubleLink current = GetNodeByIndex(index - 1);
-            DoubleLink link = new DoubleLink(value)
+            DoubleLink newLink = new DoubleLink(value)
             {
                 LinkNext = current.LinkNext
             };
-            current.LinkNext = link;
+            newLink.LinkPrevious = current;
+            current.LinkNext = newLink;
             Length++;
         }
 
@@ -169,7 +172,6 @@ namespace List
 
                         break;
                     }
-
                 }
             }
             else
@@ -199,6 +201,7 @@ namespace List
                 {
                     DoubleLink currentNext = GetNodeByIndex(index + count);
                     current.LinkNext = currentNext;
+                    currentNext.LinkPrevious = current;
                     Length -= count;
 
                 }
@@ -244,22 +247,14 @@ namespace List
             }
         }
 
-        // 14. Реверс (123 -> 321)
+        // 14. Реверс (123 -> 321)  ///переделать
         public void ReversList()
         {
             if (Length > 1)
             {
-                _tail = _root;
-                DoubleLink previous = null;
-                DoubleLink next = _root.LinkNext;
-                while (!(_root.LinkNext is null))
-                {
-                    _root.LinkNext = previous;
-                    previous = _root;
-                    _root = next;
-                    next = next.LinkNext;
-                }
-                _root.LinkNext = previous;
+                DoubleLink tmp = new DoubleLink();
+                DoubleLink current = _root;
+                
             }
         }
 

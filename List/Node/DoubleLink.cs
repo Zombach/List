@@ -6,6 +6,12 @@
         public DoubleLink LinkNext { get; set; }
         public DoubleLink LinkPrevious { get; set; }
 
+        public DoubleLink()
+        {
+            LinkNext = null;
+            LinkPrevious = null;
+        }
+
         public DoubleLink(int value)
         {
             Value = value;
