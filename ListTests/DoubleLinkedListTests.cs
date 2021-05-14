@@ -3,7 +3,7 @@ using List;
 
 namespace ListTests
 {
-    class DoubleDoubleLinkedListTests
+    class DoubleLinkedListTests
     {
         // 1. Добавление значения в конец
         [TestCase(new int[] { 0, 4, -1, 5 }, 9, new int[] { 0, 4, -1, 5, 9 })]

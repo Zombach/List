@@ -17,7 +17,7 @@ namespace ListTests
     }
     public class Test
     {
-        private Type[] _types = new[] { typeof(ArrayList), typeof(LinkedList), /*typeof(DoubleLinkedList)*/ };
+        private Type[] _types = new[] { typeof(ArrayList), typeof(LinkedList), typeof(DoubleLinkedList) };
         [TestCase(new[] { 1, 2, 3 }, 4, new[] { 1, 2, 3, 4 })]
         [TestCase(new[] { 1, 2 }, 3, new[] { 1, 2, 3 })]
         [TestCase(new int[0], 1, new[] { 1 })]
