@@ -5,10 +5,10 @@ namespace List
 {
     public class DoubleLinkedList : IList
     {
-        public int Length { get; private set; }
-
         private DoubleLink _root;
         private DoubleLink _tail;
+     
+        public int Length { get; private set; }
 
         public int this[int index]
         {
@@ -100,9 +100,13 @@ namespace List
             DoubleLink current = GetNodeByIndex(index - 1);
             DoubleLink newLink = new DoubleLink(value)
             {
-                LinkNext = current.LinkNext
+                LinkNext = current.LinkNext,
+                LinkPrevious = current
             };
-            newLink.LinkPrevious = current;
+            newLink.LinkNext.LinkPrevious = newLink;
+            current.LinkNext = newLink;
+
+            
             current.LinkNext = newLink;
             Length++;
         }
@@ -164,7 +168,11 @@ namespace List
                 {
                     Length--;
 
-                    if (Length > 1) _root = _root.LinkNext;
+                    if (Length > 1)
+                    {
+                        _root = _root.LinkNext;
+                        _root.LinkPrevious = null;
+                    }
                     else
                     {
                         _root = null;
@@ -203,7 +211,6 @@ namespace List
                     current.LinkNext = currentNext;
                     currentNext.LinkPrevious = current;
                     Length -= count;
-
                 }
                 else
                 {
@@ -235,16 +242,32 @@ namespace List
         public void ChangeValueByIndex(int index, int value)
         {
             Exceptions.CheckExceptionIndex(index + 1, Length);
-            DoubleLink current = _root;
-            for (int i = 0; i < Length; i++)
+            DoubleLink current;
+            if (index <= Length / 2)
             {
-                if (i == index)
+                current = _root;
+                for (int i = 0; i < Length; i++)
                 {
-                    current.Value = value;
-                    break;
+                    if (i == index)
+                    {
+                        break;
+                    }
+                    current = current.LinkNext;
                 }
-                current = current.LinkNext;
             }
+            else
+            {
+                current = _tail;
+                for (int i = Length - 1; i >= 0; i--)
+                {
+                    if (i == index)
+                    {
+                        break;
+                    }
+                    current = current.LinkPrevious;
+                }
+            }
+            current.Value = value;
         }
 
         // 14. Реверс (123 -> 321)  ///переделать
@@ -254,7 +277,15 @@ namespace List
             {
                 DoubleLink tmp = new DoubleLink();
                 DoubleLink current = _root;
-                
+                _root = _tail;
+                _tail = current;
+                for (int i = 0; i < Length; i++)
+                {
+                    tmp.LinkNext = current.LinkNext;
+                    current.LinkNext = current.LinkPrevious;
+                    current.LinkPrevious = tmp.LinkNext;
+                    current = tmp.LinkNext;
+                }
             }
         }
 
@@ -304,7 +335,7 @@ namespace List
             return index;
         }
 
-        public bool FindMaxOrMin(DoubleLink current, bool maxOrMin)
+        private bool FindMaxOrMin(DoubleLink current, bool maxOrMin)
         {
             if (maxOrMin && current.Value < _root.Value || !maxOrMin && current.Value > _root.Value)
             {
@@ -329,16 +360,16 @@ namespace List
         // 21. Удаление по значению первого
         public int RemoveByValueFirstMatchInList(int value)
         {
-            return RemoveByValuesInLinkedList(value, true);
+            return RemoveByValuesInDoubleLinkedList(value, true);
         }
 
         // 22. Удаление по значению всех
         public int RemoveByValueAllMatchInList(int value)
         {
-            return RemoveByValuesInLinkedList(value);
+            return RemoveByValuesInDoubleLinkedList(value);
         }
 
-        private int RemoveByValuesInLinkedList(int value, bool oneElement = false)
+        private int RemoveByValuesInDoubleLinkedList(int value, bool oneElement = false)
         {
             if (!NeedToDelete()) return -1;
             int count = 0;
@@ -394,6 +425,7 @@ namespace List
             if (Length != 0 && addArray.Length != 0)
             {
                 _tail.LinkNext = copyList._root;
+                copyList._root.LinkPrevious = _tail;
                 _tail = copyList._tail;
             }
             else
@@ -414,6 +446,7 @@ namespace List
             if (Length != 0 && addArray.Length != 0)
             {
                 copyList._tail.LinkNext = _root;
+                _root.LinkPrevious = copyList._tail;
                 _root = copyList._root;
             }
             else
@@ -450,6 +483,8 @@ namespace List
             {
                 DoubleLink tmp = GetNodeByIndex(index - 1);
                 copyList._tail.LinkNext = tmp.LinkNext;
+                copyList._root.LinkPrevious = tmp;
+                tmp.LinkNext.LinkPrevious = copyList._tail;
                 tmp.LinkNext = copyList._root;
             }
             else

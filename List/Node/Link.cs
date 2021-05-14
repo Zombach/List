@@ -10,5 +10,10 @@
             Value = value;
             LinkNext = null;
         }
+
+        public Link()
+        {
+            LinkNext = null;
+        }
     }
 }

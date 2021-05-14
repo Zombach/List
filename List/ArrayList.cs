@@ -4,9 +4,9 @@ namespace List
 {
     public class ArrayList : IList
     {
-        public int Length { set; private get; }
-
         private int[] _list;
+        public int Length { get; set; }
+
 
         public int this[int index]
         {
