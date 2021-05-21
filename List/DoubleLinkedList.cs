@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization.Formatters;
 using List.Node;
 
 namespace List
@@ -713,8 +714,7 @@ namespace List
                         tmp = first;
                         first = second;
                         second = tmp;
-
-
+                        
 
                         if (temp == 1)
                         {
@@ -757,7 +757,7 @@ namespace List
                             first.LinkPrevious = second.LinkPrevious;
                             second.LinkPrevious = first.LinkNext;
                         }
-
+                        
                         if (temp > 2)
                         {
                             if (first.LinkNext != null)
