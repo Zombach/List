@@ -18,5 +18,12 @@
             LinkNext = null;
             LinkPrevious = null;
         }
+
+        public DoubleLink(DoubleLink doubleLink)
+        {
+            Value = doubleLink.Value;
+            LinkNext = doubleLink.LinkNext;
+            LinkPrevious = doubleLink.LinkPrevious;
+        }
     }
 }

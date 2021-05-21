@@ -620,31 +620,201 @@ namespace List
         private void SortingList(bool ascendingOrDescending = true)
         {
             if (Length == 0) return;
-            DoubleLink temp = _tail;
-            for (DoubleLink current = _root; temp.LinkNext != _root.LinkNext;)
+            int step = 1;
+            DoubleLink first;
+            DoubleLink second;
+            DoubleLink tmp;
+
+            for (int group = 2; group < Length*2; group *= 2)
             {
-                if (SortAscendingOrDescending(temp, current, ascendingOrDescending))
+                int groupOne = 1;
+                int groupTwo = 1;
+                int count = 0;
+                int countFirst = 0;
+                int countSecond = 0;
+                int tmpCountFirst = 1;
+                do
                 {
-                    int tmp = current.Value;
-                    current.Value = temp.Value;
-                    temp.Value = tmp;
-                }
-                if (current.LinkNext == temp)
-                {
-                    temp = current;
-                    current = _root;
-                    continue;
-                }
-                current = current.LinkNext;
+                    first = _root;
+                    second = _root;
+                    for (int i = 0; i < group*count; i++)
+                    {
+                        first = first.LinkNext;
+                        second = second.LinkNext;
+                    }
+
+                    for (int i = 0; i < countFirst; i++)
+                    {
+                        first = first.LinkNext;
+                    }
+                    
+                    for (int i = 0; i < step + countSecond; i++)
+                    {
+                        second = second.LinkNext;
+                    }
+
+                    if (second == null)
+                    {
+                        for (int i = 0; i < tmpCountFirst; i++)
+                        {
+                            first = first.LinkNext;
+                        }
+
+                        if (first == null)
+                        {
+                            break;
+                        }
+
+                        second = first.LinkNext;
+                        if (second == null)
+                        {
+                            tmpCountFirst++;
+                            continue;
+                        }
+                    }
+
+                    if (first.Value <= second.Value)
+                    {
+                        if (groupOne < group/2)
+                        {
+                            countFirst++;
+                            groupOne++;
+                            count--;
+                        }
+                        else if (groupTwo < group / 2)
+                        {
+                            groupTwo++;
+                            count--;
+                        }
+                    }
+                    else
+                    {
+                        if (first == _root)
+                        {
+                            _root = second;
+                        }
+
+                        if (second == _tail)
+                        {
+                            _tail = first;
+                        }
+
+                        int temp = 0;
+                        tmp = first;
+                        while (tmp != second)
+                        {
+                            tmp = tmp.LinkNext;
+                            temp++;
+                            if (temp > 2)
+                            {
+                                break;
+                            }
+                        }
+                        tmp = first;
+                        first = second;
+                        second = tmp;
+
+
+
+                        if (temp == 1)
+                        {
+                            second.LinkNext = first.LinkNext;
+                            first.LinkNext = second;
+                            if (second.LinkPrevious != null)
+                            {
+                                second.LinkPrevious.LinkNext = first;
+                            }
+                            first.LinkPrevious = second.LinkPrevious;
+                            if (second.LinkNext != null)
+                            {
+                                second.LinkNext.LinkPrevious = second;
+                            }
+                            second.LinkPrevious = first;
+                        }
+
+                        if (temp == 2)
+                        {
+                            if (second.LinkNext != null)
+                            {
+                                second.LinkNext.LinkNext = second;
+                            }
+                            if (first.LinkPrevious != null)
+                            {
+                                first.LinkPrevious.LinkPrevious = first;
+                            }
+
+                            if (second.LinkPrevious != null)
+                            {
+                                second.LinkPrevious.LinkNext = first;
+                            }
+
+                            if (first.LinkNext != null)
+                            {
+                                first.LinkNext.LinkPrevious = second;
+                            }
+                            second.LinkNext = first.LinkNext;
+                            first.LinkNext = first.LinkPrevious;
+                            first.LinkPrevious = second.LinkPrevious;
+                            second.LinkPrevious = first.LinkNext;
+                        }
+
+                        if (temp > 2)
+                        {
+                            if (first.LinkNext != null)
+                            {
+                                first.LinkNext.LinkPrevious = second;
+                            }
+                            if (first.LinkPrevious != null)
+                            {
+                                first.LinkPrevious.LinkNext = second;
+                            }
+
+                            if (second.LinkNext != null)
+                            {
+                                second.LinkNext.LinkPrevious = first;
+                            }
+                            if (second.LinkPrevious != null)
+                            {
+                                second.LinkPrevious.LinkNext = first;
+                            }
+
+                            second.LinkNext = first.LinkNext;
+
+                            tmp = first;
+                            do
+                            {
+                                tmp = tmp.LinkPrevious;
+                            } 
+                            while (tmp.LinkPrevious != first);
+                            first.LinkNext = tmp;
+
+                            first.LinkPrevious = second.LinkPrevious;
+
+                            tmp = first;
+                            do
+                            {
+                                tmp = tmp.LinkNext;
+                            } 
+                            while (tmp.LinkNext != second);
+                            second.LinkPrevious = tmp;
+                        }
+                        countFirst = 0;
+                        countSecond = 0;
+                        groupOne = 1;
+                        groupTwo = 1;
+                        tmpCountFirst = 1;
+                        step = 1;
+                        group = 2;
+                    } 
+                    count++;
+                } while (group != groupOne + groupTwo || count < Length/group);
+                step *= 2;
             }
-        }
-        private bool SortAscendingOrDescending(DoubleLink temp, DoubleLink current, bool ascendingOrDescending)
-        {
-            if (ascendingOrDescending && temp.Value < current.Value || !ascendingOrDescending && temp.Value > current.Value)
+
+            if (!ascendingOrDescending)
             {
-                return true;
+                ReversList();
             }
-            return false;
         }
 
         private bool NodeBegin(int value, int index)
